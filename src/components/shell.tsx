@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
+  IconSearch,
+  IconHeart,
   IconBucket,
   IconShoppingBag,
   IconUser,
@@ -13,8 +15,18 @@ import {
 import { CartDrawer } from "./cart-drawer";
 import { useStore } from "./store";
 export function Shell({ children }: { children: React.ReactNode }) {
-  const { cart, error } = useStore();
+  const { cart, error, account, signOut } = useStore();
   const path = usePathname();
+  const router = useRouter();
+  const [logoutError, setLogoutError] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
+  async function logout() {
+    setLoggingOut(true);
+    setLogoutError("");
+    try { await signOut(); router.replace("/login"); router.refresh(); }
+    catch (e) { setLogoutError((e as Error).message); }
+    finally { setLoggingOut(false); }
+  }
   const [open, setOpen] = useState(false);
   const [bucketOpen, setBucketOpen] = useState(false);
   const count = cart.reduce((s, l) => s + l.quantity, 0);
@@ -58,6 +70,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="nav-actions">
+            <Link href="/kits#search" className="icon-button" aria-label="Search kits" title="Search"><IconSearch size={21} /></Link>
             <Link
               href="/login"
               className="icon-button account-link"
@@ -65,18 +78,18 @@ export function Shell({ children }: { children: React.ReactNode }) {
             >
               <IconUser size={22} />
             </Link>
-            <Link href="/kits#search" className="text-link search-link">
-              Search
-            </Link>
+            <Link href="/kits" className="icon-button" aria-label="Find your favourite kit" title="Find your favourite kit"><IconHeart size={21} /></Link>
             <button
               onClick={() => setBucketOpen(true)}
               className="cart-link"
+              aria-label={`Open bucket, ${count} items`}
               aria-haspopup="dialog"
             >
               <IconShoppingBag size={21} />
-              <span>My bucket</span>
+
               <b>{count}</b>
             </button>
+            {account && <button className="header-logout" onClick={logout} disabled={loggingOut}>{loggingOut ? "Signing out…" : "Log out"}</button>}
             <button
               className="icon-button mobile-toggle"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -100,6 +113,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </nav>
         )}
       </header>
+      {logoutError && <p className="container error-box" role="alert">{logoutError}</p>}
       {error && (
         <div className="container">
           <p className="error-box" role="alert">
@@ -151,7 +165,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <h4>The small print</h4>
             <Link href="/about#delivery">Delivery & returns</Link>
             <Link href="/about#privacy">Privacy</Link>
-            <Link href="/admin">Admin dashboard</Link>
           </div>
         </div>
         <div className="container footer-wordmark" aria-hidden="true">

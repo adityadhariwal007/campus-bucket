@@ -6,7 +6,7 @@ Verified 14 October 2026.
 - Also live: https://www.campusbucket.live
 - Hosting: Cloudflare Workers with OpenNext
 - Worker: `campus-bucket`
-- Deployed version: `ac35e377-158a-4ab1-87c3-e61427f1ce69`
+- Deployed version: `192867c0-10bf-4c1c-a9c2-ee85fc621b13`
 - Routes: `campusbucket.live/*` and `www.campusbucket.live/*`
 - Next.js 16.3.8; OpenNext Cloudflare 1.20.11; Wrangler 4.150.0
 - Existing proxied DNS records and email routing are preserved. No paid plan or Images service was enabled.
@@ -47,3 +47,5 @@ Deployed all current application files, including the Google sign-in UI and save
 Validation: typecheck, eight unit checks, database suite, and Cloudflare production build passed. Live main routes return 200; anonymous /admin redirects to login; /.env.local and /google-login.html return 404. The Google button renders without browser errors.
 
 Google provider was subsequently enabled and verified through live Supabase Auth settings (external.google=true). A complete Google sign-in and email delivery remain unverified.
+
+Latest release includes the admin dashboard, automatic verified-admin routing, homepage scroll ribbon, inset header divider and four icons, header logout, password recovery, and Google button initialization fix.

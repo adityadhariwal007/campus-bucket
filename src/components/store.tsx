@@ -209,6 +209,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
     }
+    sessionStorage.removeItem("campus-password-recovery");
     sessionStorage.removeItem("campus-demo-account");
     sessionStorage.removeItem("campus-google-user");
     setAccount(null);

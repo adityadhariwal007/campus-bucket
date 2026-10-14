@@ -11,6 +11,7 @@ import {
 } from "@/components/ui";
 import { OrderCard } from "@/components/order-card";
 import { categories, money, tiers } from "@/lib/catalog";
+import { matchesStock } from "@/lib/admin";
 import { statuses, type Kit, type Order, type Product } from "@/lib/types";
 const blankProduct: Product = {
   id: "",
@@ -33,7 +34,7 @@ const blankKit: Kit = {
 };
 export default function Admin() {
   const store = useStore();
-  const [tab, setTab] = useState("Orders"),
+  const [tab, setTab] = useState("Overview"),
     [orders, setOrders] = useState<Order[]>([]),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
@@ -43,7 +44,10 @@ export default function Admin() {
       data: Product | Kit;
       isNew: boolean;
     } | null>(null),
-    [search, setSearch] = useState("");
+    [search, setSearch] = useState(""),
+    [status, setStatus] = useState("All"),
+    [category, setCategory] = useState("All"),
+    [stock, setStock] = useState("All");
   async function refresh() {
     setBusy(true);
     setError("");
@@ -158,22 +162,24 @@ export default function Admin() {
     );
   }
   const products = store.catalog.products.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase()),
+    p.name.toLowerCase().includes(search.toLowerCase()) &&
+    (category === "All" || p.category === category) && matchesStock(p.stock, stock),
   );
   const kits = store.catalog.kits.filter((k) =>
-    `${k.name} ${k.tier}`.toLowerCase().includes(search.toLowerCase()),
+    `${k.name} ${k.tier}`.toLowerCase().includes(search.toLowerCase()) &&
+    (category === "All" || k.type === category) && matchesStock(k.stock, stock),
   );
   const visibleOrders = orders.filter((o) =>
     `${o.id} ${o.customer.name} ${o.customer.campus}`
       .toLowerCase()
-      .includes(search.toLowerCase().replace(/^cb-/, "")),
+      .includes(search.toLowerCase().replace(/^cb-/, "")) && (status === "All" || o.status === status),
   );
   return (
-    <div className="container page">
+    <div className="container page admin-workspace">
       <PageHeading
         eyebrow="CAMPUS BUCKET / BACKSTAGE"
-        title="Make good things happen."
-        description="Manage your essentials, keep stock current, and get orders out the door."
+        title="Store dashboard."
+        description="Your daily overview, customer orders, and catalog — all in one place."
       />
       {store.demo && (
         <p className="info-box">
@@ -194,19 +200,23 @@ export default function Admin() {
         </div>
         <div>
           <strong>{money(orders.reduce((n, o) => n + o.total, 0))}</strong>
-          <span>Order value</span>
+          <span>Order value · latest 200, not payments received</span>
         </div>
       </div>
       <div className="admin-toolbar">
         <div className="tabs">
-          {["Orders", "Products", "Kits"].map((t) => (
+          {["Overview", "Orders", "Products", "Kits"].map((t) => (
             <button
               className={tab === t ? "selected" : ""}
+              aria-pressed={tab === t}
               key={t}
               onClick={() => {
                 setTab(t);
                 setEditing(null);
                 setSearch("");
+                setStatus("All");
+                setCategory("All");
+                setStock("All");
                 setError("");
               }}
             >
@@ -222,7 +232,7 @@ export default function Admin() {
           >
             Refresh
           </button>
-          {tab !== "Orders" && (
+          {(tab === "Products" || tab === "Kits") && (
             <button
               className="button primary"
               onClick={() => {
@@ -418,17 +428,47 @@ export default function Admin() {
           </button>
         </form>
       )}
-      <label>
-        <span className="sr-only">Search {tab}</span>
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={`Search ${tab.toLowerCase()}…`}
-        />
-      </label>
+      {tab !== "Overview" && <div className="admin-filters">
+        <label>Search {tab.toLowerCase()}
+          <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={tab === "Orders" ? "Order number, customer or campus" : "Search by name"} />
+        </label>
+        {tab === "Orders" ? <label>Order status
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="All">All statuses</option>
+            {statuses.map((s) => <option key={s}>{s}</option>)}
+          </select>
+        </label> : <>
+          <label>Category<select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="All">All categories</option>
+            {[...categories, ...(tab === "Kits" ? ["Bundle"] : [])].map((c) => <option key={c}>{c}</option>)}
+          </select></label>
+          <label>Stock<select value={stock} onChange={(e) => setStock(e.target.value)}>
+            <option value="All">All stock</option><option value="Low">Low stock (1–5)</option><option value="Out">Out of stock</option>
+          </select></label>
+        </>}
+      </div>}
       {busy && !editing ? (
         <Loading />
+      ) : tab === "Overview" ? (
+        <div className="admin-overview">
+          <section className="admin-panel">
+            <span className="eyebrow">FULFILMENT</span><h2>Orders by stage</h2>
+            <p className="muted">Select a stage to view orders and update their delivery status.</p>
+            <div className="admin-stage-list">{statuses.map((s) => <button key={s} onClick={() => { setTab("Orders"); setStatus(s); setSearch(""); }}>
+              <span>{s}</span><strong>{orders.filter((o) => o.status === s).length}</strong>
+            </button>)}</div>
+            <p className="small muted">Based on the latest 200 orders.</p>
+          </section>
+          <section className="admin-panel">
+            <span className="eyebrow">CATALOG & STOCK</span><h2>Keep essentials ready</h2>
+            <p>{store.catalog.products.length} products · {store.catalog.kits.length} kits</p>
+            <div className="admin-stage-list">
+              <button onClick={() => { setTab("Products"); setStock("Low"); setCategory("All"); setSearch(""); }}><span>Products running low</span><strong>{store.catalog.products.filter((p) => matchesStock(p.stock, "Low")).length}</strong></button>
+              <button onClick={() => { setTab("Products"); setStock("Out"); setCategory("All"); setSearch(""); }}><span>Products out of stock</span><strong>{store.catalog.products.filter((p) => p.stock === 0).length}</strong></button>
+              <button onClick={() => { setTab("Kits"); setStock("Out"); setCategory("All"); setSearch(""); }}><span>Kits out of stock</span><strong>{store.catalog.kits.filter((k) => k.stock === 0).length}</strong></button>
+            </div>
+          </section>
+        </div>
       ) : tab === "Orders" ? (
         visibleOrders.length ? (
           visibleOrders.map((o) => (
@@ -474,10 +514,12 @@ export default function Admin() {
           ))
         ) : (
           <Empty
-            title="No orders to pack yet."
-            body="New orders will appear here."
+            title="No matching orders."
+            body="Try another search or status. New orders appear after refreshing."
           />
         )
+      ) : (tab === "Products" ? products : kits).length === 0 ? (
+        <Empty title="No matching items." body="Try another category, stock filter, or search." />
       ) : (
         <div className="table-wrap">
           <table>

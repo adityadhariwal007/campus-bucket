@@ -43,3 +43,12 @@ The subsequent mobile correction is deployed as `c4b0ae02-f24a-42f0-a7ae-e6dd85c
 Auth logs identified SQLSTATE 42703: the signup trigger referenced a missing public.users.name column. The live column was named team. Applied restore_user_name_column to rename it back without dropping data. Regression test reproduces the missing-column failure, applies the migration twice, preserves an existing profile name, and verifies new profile creation. All PostgreSQL checks and TypeScript pass. A rolled-back live trigger probe succeeds under the management connection; there are zero persisted probe accounts. All 3 existing profiles, RLS and both administrator memberships remain. A probe using SET ROLE supabase_auth_admin was denied by the management role, so this does not constitute a hosted Auth signup/email-delivery test.
 
 Security advisor now reports leaked-password protection disabled; its availability/configuration remains for a separate Auth settings review. No RLS or permission protections were removed for this repair.
+
+## Header, ribbon, and account controls — 14 October 2026
+
+- Added a curved text ribbon with scroll-driven reveal and reduced-motion support; checked the homepage at desktop and 375px width.
+- Header has an inset divider, search/account/heart/bucket icons, and a signed-in logout action. The heart links to kit discovery; no wishlist storage is introduced.
+- Google initialization now reruns after the form mounts and has an OAuth fallback while its script loads.
+- Added reset-email request and recovery-password forms using Supabase Auth. Reset links return to the existing /login URL and should be opened in the requesting browser (PKCE). No password-reset email was sent during testing.
+- Admin overview, order stages, catalog filters, stock filters, and automatic routing for verified admin membership are included. Public admin links are removed.
+- Twelve unit checks, database authorization checks, type checking and Cloudflare build passed. Authenticated logout, real Google consent, and reset-email delivery still need owner verification.

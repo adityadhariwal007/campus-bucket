@@ -6,6 +6,7 @@ import { useStore } from "@/components/store";
 import { KitVisual } from "@/components/ui";
 import { Photo } from "@/components/photo";
 import { FAQ } from "@/components/faq";
+import { CampusRibbon } from "@/components/campus-ribbon";
 import { Motion } from "@/components/motion";
 import { media } from "@/lib/media";
 import { categories, money, tiers } from "@/lib/catalog";
@@ -93,6 +94,7 @@ export default function Home() {
           </span>
         </div>
       </section>
+      <CampusRibbon />
       <div
         className="marquee"
         aria-label="Bucket, towel, bottle, duffel, notebook and more"

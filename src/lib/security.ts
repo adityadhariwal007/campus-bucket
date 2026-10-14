@@ -28,3 +28,7 @@ export function safeNext(value: string | null) {
       ? "/admin"
       : "/orders";
 }
+
+export function loginDestination(isAdmin: boolean, next: string | null) {
+  return isAdmin ? "/admin" : safeNext(next === "admin" ? null : next);
+}

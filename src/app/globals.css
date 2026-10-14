@@ -3558,3 +3558,42 @@ textarea:focus {
 @media (max-width: 767px) {
   .founder-section { grid-template-columns: minmax(0, 1fr); margin-top: 48px; padding-top: 32px; }
 }
+
+/* Store operations reuse the storefront's neutral palette. */
+.admin-workspace .admin-stats strong { font-family: var(--font-display), sans-serif; }
+.admin-overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.admin-panel { padding: 28px; border: 1px solid var(--line); background: var(--paper); }
+.admin-panel h2 { font-size: 28px; margin: 12px 0; }
+.admin-stage-list { display: grid; margin: 24px 0 16px; }
+.admin-stage-list button { display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.admin-stage-list button:hover { text-decoration: underline; }
+.admin-stage-list strong { font-family: var(--font-display), sans-serif; font-size: 22px; }
+.admin-filters { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
+.admin-filters label { flex: 1 1 180px; }
+.admin-filters label:first-child { flex-grow: 2; }
+.admin-workspace .admin-toolbar { flex-wrap: wrap; }
+.admin-workspace .tabs { flex-wrap: wrap; }
+@media (max-width: 767px) {
+  .admin-overview { grid-template-columns: 1fr; }
+  .admin-panel { padding: 20px; }
+  .admin-workspace .admin-toolbar > .row { flex-wrap: wrap; }
+}
+
+/* Inset rule and compact reference-inspired header actions. */
+.site-header { border-bottom: 0; }
+.site-header .nav-wrap { width: calc(100% - 96px); margin-inline: auto; padding-inline: 0; border-bottom: 1px solid var(--line); }
+.site-header .nav-actions { gap: 8px; }
+.site-header .nav-actions .account-link, .site-header .cart-link svg { display: inline-flex; }
+.site-header .cart-link { padding: 8px; gap: 5px; }
+.header-logout { font-size: 12px; text-decoration: underline; padding: 8px; }
+.campus-ribbon { width: 100%; overflow: hidden; margin: -20px 0 24px; }
+.campus-ribbon svg { display: block; width: 100%; height: auto; max-height: 380px; }
+.campus-ribbon text { font-family: var(--font-body), sans-serif; font-size: 25px; letter-spacing: 2px; }
+@media (max-width: 767px) {
+  .site-header .nav-wrap { width: calc(100% - 24px); margin-inline: auto; padding: 12px 0; height: auto; min-height: 80px; flex-wrap: wrap; }
+  .site-header .nav-actions { gap: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .site-header .nav-actions .icon-button { min-width: 36px; width: 36px; }
+  .header-logout { flex-basis: auto; }
+  .campus-ribbon { margin: 0 0 20px; }
+  .campus-ribbon text { font-size: 35px; }
+}
