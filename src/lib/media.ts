@@ -18,13 +18,11 @@ const slot = (alt: string, width = 1000, height = 1000): Photo => ({
 export const media = {
   founder: slot("Aditya Dhariwal, founder of Campus Bucket", 900, 1100),
   campus: {
-    src: "https://images.unsplash.com/photo-1656321717360-be568acc171b",
-    alt: "The lawn and campus buildings of Presidency University, Kolkata",
-    width: 1200,
-    height: 900,
-    focal: "50% 55%",
-    credit: "Ritanuka Ghosh / Unsplash",
-    source: "https://unsplash.com/photos/c7DLLIxudR8",
+    src: "/campus.png",
+    alt: "Campus buildings beside trees and a running track",
+    width: 2000,
+    height: 1333,
+    focal: "50% 65%",
   },
   kits: {
     Hostel: slot(
