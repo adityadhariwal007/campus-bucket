@@ -26,6 +26,10 @@ import { StoreProvider } from "@/components/store";
 import { Shell } from "@/components/shell";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
+  metadataBase: new URL("https://campusbucket.live"),
+  alternates: { canonical: "/" },
+  openGraph: { title: "Campus Bucket | Campus life. Sorted.", description: "Hostel, study and sports essentials, packed for your next chapter.", url: "/", siteName: "Campus Bucket", locale: "en_IN", type: "website", images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "Campus Bucket — Campus life. Sorted." }] },
+  twitter: { card: "summary_large_image", title: "Campus Bucket | Campus life. Sorted.", description: "Hostel, study and sports essentials, packed for your next chapter.", images: ["/social-preview.png"] },
   title: {
     default: "Campus Bucket | Your campus life, sorted.",
     template: "%s | Campus Bucket",
@@ -43,9 +47,6 @@ export default function RootLayout({
       lang="en-IN"
       className={`${display.variable} ${body.variable} ${serif.variable}`}
     >
-      <head>
-        <link rel="preconnect" href="https://images.unsplash.com" />
-      </head>
       <body>
         <StoreProvider>
           <Shell>{children}</Shell>

@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Photo } from "@/components/photo";
 import { media } from "@/lib/media";
 import { IconBucket, IconArrowUpRight } from "@tabler/icons-react";
-export const metadata = { title: "Our story & contact" };
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata("/about", "Our story & contact", "Meet Campus Bucket founder Aditya Dhariwal and contact our team for college essentials and order support.");
 export default function About() {
   return (
     <div className="container page about-page">
@@ -108,6 +109,7 @@ export default function About() {
       </section>
       <section id="privacy" className="section legal">
         <h2>Privacy</h2>
+        <p>Read our full <Link href="/privacy">privacy policy</Link> and <Link href="/terms">terms & conditions</Link>.</p>
         <p>Your bucket is saved in your browser. Account and order details are stored securely with Supabase. Customers can access their own orders; authorized store administrators manage the catalog and orders.</p>
         <p>No card details or UPI PINs are collected. Contact team@campusbucket.live for questions about your data or to request its deletion.</p>
       </section>

@@ -1,18 +1,18 @@
 # Campus Bucket deployment
 
-Verified 14 October 2026.
+Verified 15 October 2026.
 
 - Primary: https://campusbucket.live
 - Also live: https://www.campusbucket.live
 - Hosting: Cloudflare Workers with OpenNext
 - Worker: `campus-bucket`
-- Deployed version: `97bf0a7d-4e33-42b4-b552-978b7aaf5b61`
+- Deployed version: `31cc181a-8ca8-4142-bb48-46c4a3ead6c3`
 - Routes: `campusbucket.live/*` and `www.campusbucket.live/*`
 - Next.js 16.3.8; OpenNext Cloudflare 1.20.11; Wrangler 4.150.0
 - Existing proxied DNS records and email routing are preserved. No paid plan or Images service was enabled.
 - Live Supabase project: `zbdezzafnqwmqmdxdmmo`. The build includes its public URL and publishable key; no service-role credential is shipped.
 - Six tables have RLS. The catalog contains 30 products, 10 kits and 66 kit-item rows. The order-limits migration is applied.
-- Cloudflare `SITE_LIMITER`: 300 Worker requests/IP/minute. Database order quota: 10/hour and 50/day/account.
+- Cloudflare `SITE_LIMITER`: 300 Worker requests/IP/minute; signup/recovery gateway: 5 attempts/IP/minute. Database order quota: 10/hour and 50/day/account.
 
 ## Redeploy
 
@@ -49,3 +49,7 @@ Validation: typecheck, eight unit checks, database suite, and Cloudflare product
 Google provider was subsequently enabled and verified through live Supabase Auth settings (external.google=true). A complete Google sign-in and email delivery remain unverified.
 
 Latest release includes the admin dashboard, automatic verified-admin routing, homepage scroll ribbon, inset header divider and four icons, header logout, password recovery, and Google button initialization fix.
+
+## Launch and mobile release · 15 October 2026
+
+Live version above includes policy pages, social metadata/card, icons, custom 404, signup/recovery abuse controls, existing analytics verification and mobile refinements. Phone kit browsing uses native horizontal scrolling; scroll-driven translations are progressive enhancements and respect reduced motion. No photos or dependencies added for the mobile work. Live checks pass for 22 routes and 39 internal links. Type checking, 16 unit checks, database checks and production build pass. Legal copy and real email/auth delivery still need owner review; no online payment has been enabled.

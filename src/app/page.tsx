@@ -97,6 +97,7 @@ export default function Home() {
       <CampusRibbon />
       <div
         className="marquee"
+        role="img"
         aria-label="Bucket, towel, bottle, duffel, notebook and more"
       >
         <div className="marquee-track" aria-hidden="true">
@@ -181,7 +182,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="kit-rail-window">
+        <div className="kit-rail-window" role="region" aria-label="Explore kit categories" tabIndex={0}>
           <div className="kit-rail">
             {categories
               .filter((c) => category === "All" || category === c)

@@ -8,31 +8,34 @@ export function CampusRibbon() {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let tick = 0;
+    let scrolled = false;
     const draw = () => {
       tick = 0;
       if (!frame.current || !reveal.current) return;
+      frame.current.dataset.started = String(scrolled);
       const rect = frame.current.getBoundingClientRect();
-      const progress = ribbonProgress(rect.top, rect.height, innerHeight, reduced.matches);
+      const progress = scrolled ? ribbonProgress(rect.top, rect.height, innerHeight, reduced.matches) : 0;
       reveal.current.style.strokeDashoffset = String(1 - progress);
     };
     const schedule = () => { if (!tick) tick = requestAnimationFrame(draw); };
+    const onScroll = () => { if (window.scrollY > 0) scrolled = true; schedule(); };
     draw();
-    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", schedule);
     reduced.addEventListener("change", schedule);
     return () => {
       cancelAnimationFrame(tick);
-      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", schedule);
       reduced.removeEventListener("change", schedule);
     };
   }, []);
-  return <div ref={frame} className="campus-ribbon" role="img" aria-label="Less packing. More living. Your next chapter starts here.">
+  return <div ref={frame} className="campus-ribbon" data-started="false" role="img" aria-label="Less packing. More living. Your next chapter starts here.">
     <svg viewBox="0 0 1200 370" aria-hidden="true">
       <defs>
         <path id={`${id}-curve`} d="M -40 70 C 240 -15, 650 25, 440 165 S 720 395, 1240 215" />
         <mask id={`${id}-reveal`} maskUnits="userSpaceOnUse" x="-60" y="-60" width="1320" height="450">
-          <path ref={reveal} d="M -40 70 C 240 -15, 650 25, 440 165 S 720 395, 1240 215" pathLength="1" stroke="white" strokeWidth="70" fill="none" strokeDasharray="1" strokeDashoffset="0" />
+          <path ref={reveal} d="M -40 70 C 240 -15, 650 25, 440 165 S 720 395, 1240 215" pathLength="1" stroke="white" strokeWidth="70" fill="none" strokeDasharray="1" strokeDashoffset="1" />
         </mask>
       </defs>
       <g mask={`url(#${id}-reveal)`}>

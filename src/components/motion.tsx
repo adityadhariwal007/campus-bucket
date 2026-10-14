@@ -91,12 +91,7 @@ export function Motion({ refreshKey }: { refreshKey: string }) {
       const tick = (time: number) => lenis.raf(time * 1000);
       gsap.ticker.add(tick);
       const context = gsap.context(() => {
-        gsap.fromTo(
-          ".line-mask > *",
-          { yPercent: 105 },
-          { yPercent: 0, duration: 1.1, stagger: 0.12, ease: "expo.out" },
-        );
-        gsap.fromTo(".why-sticky h2", { opacity: .35 }, { opacity: 1, scrollTrigger: { trigger: ".editorial-why", start: "top center", end: "center center", scrub: true } });
+        gsap.fromTo(".why-sticky h2", { opacity: .8 }, { opacity: 1, scrollTrigger: { trigger: ".editorial-why", start: "top center", end: "center center", scrub: true } });
         document.querySelectorAll<HTMLElement>("[data-count]").forEach(el => {
           const end=Number(el.dataset.count); const counter={value:0};
           gsap.to(counter,{value:end,duration:1,ease:"expo.out",scrollTrigger:{trigger:el,start:"top 90%",once:true},onUpdate:()=>{el.textContent=String(Math.round(counter.value));}});
@@ -215,8 +210,11 @@ export function Motion({ refreshKey }: { refreshKey: string }) {
       void setup();
     };
     preference.addEventListener("change", change);
-    void setup();
+    const start = () => { void setup(); };
+    if (window.scrollY > 0) void setup();
+    else window.addEventListener("scroll", start, { once: true, passive: true });
     return () => {
+      window.removeEventListener("scroll", start);
       stopped = true;
       cleanup?.();
       preference.removeEventListener("change", change);

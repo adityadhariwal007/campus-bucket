@@ -56,3 +56,24 @@ Security advisor now reports leaked-password protection disabled; its availabili
 ## Header visibility repair — 15 October 2026
 
 Removed scroll-driven header hiding and compact-height changes. These classes were applied outside GSAP's context and could persist after homepage navigation, leaving the logo and navigation partly offscreen. Header now retains its normal sticky position and full height. Typecheck, 12 unit checks, and Cloudflare build passed.
+
+## Launch polish — 15 October 2026
+
+- Ribbon server markup starts with a fully hidden SVG and reveals only after scrolling; native scroll reveal works independently of animation libraries.
+- Terms, privacy and social-preview pages added; branded favicon, touch icon and 1200×630 Open Graph/Twitter card are served.
+- Unique titles, descriptions, canonical URLs, social metadata, private-page noindex, robots.txt and a live-catalog sitemap are in place. Missing kit IDs now return HTTP 404; removing the outer loading boundary prevents streaming an early success status. Per-page loading states remain.
+- Sixteen unit checks, database checks, type checking and Cloudflare build passed. Live audit: 22 routes and 39 internal links, no broken anchors or images missing alt attributes. No AI badge was found in source or live DOM.
+- Signup/recovery use a same-origin Worker gateway with a five-attempts/minute/IP budget, input/body validation, trusted upstream, private responses and origin checks. Signup/recovery forms include a honeypot. Supabase's own authentication limits and existing order quotas remain. The public Supabase API remains directly reachable by design; this is basic abuse protection, not proof that all bots are blocked. Shared networks may encounter the one-minute cooldown.
+- Existing Cloudflare Web Analytics automatic setup was verified: the dashboard shows visits, and the beacon is present without browser errors. No duplicate tracker was added.
+- Campus photo: 798,817 bytes PNG → 175,968 bytes WebP (78% smaller). Original PNG retained.
+- Google PageSpeed Insights mobile, slow 4G/Moto G Power: performance 73 → 92; accessibility 90 → 100; best practices 100; SEO 100. Final lab metrics: FCP 1.6s, LCP 3.2s, TBT 70ms, CLS 0, speed index 3.1s. No CrUX field data available.
+- Report: https://pagespeed.web.dev/analysis/https-campusbucket-live/gmj428kvfh?form_factor=mobile
+- The initial direct PageSpeed API request was quota-limited; the public interface completed both audits. Animation libraries now wait for scrolling, the headline stays visible, and the low-contrast heading fade, prohibited marquee ARIA and footer heading order were corrected.
+
+Limits: legal wording has not been reviewed by a lawyer. No real password-reset email or paid checkout was triggered during this release. Lighthouse scores are lab measurements and may vary.
+
+## Mobile refinement · 15 October 2026
+
+Phone browser checks at 320px and 390px: no document horizontal overflow; 320px navigation remains 80px high on one row; headline fits on two lines. Mobile menu opens/closes. Kit rail accepts keyboard horizontal scrolling and exposes a focusable named region. Native scroll-timeline support confirmed; unpack translation moves from 28px to 0 as content passes through the viewport. Ribbon starts hidden and reveals after scrolling. No photos or motion dependencies added. Native reduced-motion media query excludes the new animations; actual device/Safari testing and authenticated mobile logout were not performed.
+
+Final Worker version: `31cc181a-8ca8-4142-bb48-46c4a3ead6c3`. Live 22-route/39-link audit passes. At 320px, login, kit detail, build-your-own, cart, checkout, about, privacy and terms have no horizontal document overflow. Production screenshots: `output/campus-bucket-mobile-live.png` and `output/campus-bucket-mobile-unpack-live.png`.

@@ -14,3 +14,12 @@ test("password update validates length and confirmation", () => {
   assert.throws(() => validateNewPassword("a".repeat(129), "a".repeat(129)));
   assert.doesNotThrow(() => validateNewPassword("valid-password", "valid-password"));
 });
+
+test("ribbon is completely hidden in its initial server-rendered markup", async () => {
+  const { renderToStaticMarkup } = await import("react-dom/server");
+  const { createElement } = await import("react");
+  const { CampusRibbon } = await import("../src/components/campus-ribbon");
+  const html = renderToStaticMarkup(createElement(CampusRibbon));
+  assert.match(html, /data-started="false"/);
+  assert.match(html, /stroke-dashoffset="1"/);
+});

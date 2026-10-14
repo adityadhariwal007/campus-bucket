@@ -18,10 +18,10 @@ const slot = (alt: string, width = 1000, height = 1000): Photo => ({
 export const media = {
   founder: slot("Aditya Dhariwal, founder of Campus Bucket", 900, 1100),
   campus: {
-    src: "/campus.png",
+    src: "/campus.webp",
     alt: "Campus buildings beside trees and a running track",
-    width: 2000,
-    height: 1333,
+    width: 1600,
+    height: 1066,
     focal: "50% 65%",
   },
   kits: {

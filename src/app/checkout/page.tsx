@@ -241,8 +241,8 @@ export default function Checkout() {
           </button>
           <p className="small muted">
             By continuing, you agree to our{" "}
-            <Link href="/about#delivery">delivery & returns terms</Link> and{" "}
-            <Link href="/about#privacy">privacy notice</Link>.
+            <Link href="/terms">terms & conditions</Link> and{" "}
+            <Link href="/privacy">privacy policy</Link>.
           </p>
         </aside>
       </form>

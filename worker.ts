@@ -2,15 +2,18 @@
 // @ts-ignore OpenNext creates this module at build time.
 import app from "./.open-next/worker.js";
 import { checkRequest, type RateLimit } from "./src/lib/edge-security";
+import { proxyAccountRequest } from "./src/lib/account-proxy";
 import { securityHeaders } from "./src/lib/security";
 export default {
   async fetch(
     request: Request,
-    env: { SITE_LIMITER: RateLimit },
+    env: { SITE_LIMITER: RateLimit; ACCOUNT_LIMITER: RateLimit },
     ctx: unknown,
   ) {
     const rejection = await checkRequest(request, env.SITE_LIMITER);
-    const result = rejection || await app.fetch(request, env, ctx);
+    const result = rejection || (new URL(request.url).pathname.startsWith("/api/account/")
+      ? await proxyAccountRequest(request, env.ACCOUNT_LIMITER)
+      : await app.fetch(request, env, ctx));
     const response = new Response(result.body, result);
     Object.entries(securityHeaders).forEach(([name,value])=>response.headers.set(name,value));
     return response;

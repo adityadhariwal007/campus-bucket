@@ -23,7 +23,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   async function logout() {
     setLoggingOut(true);
     setLogoutError("");
-    try { await signOut(); router.replace("/login"); router.refresh(); }
+    try { await signOut(); setOpen(false); router.replace("/login"); router.refresh(); }
     catch (e) { setLogoutError((e as Error).message); }
     finally { setLoggingOut(false); }
   }
@@ -110,6 +110,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Link href="/login" onClick={() => setOpen(false)}>
               My account
             </Link>
+            {account && <button className="header-logout" onClick={logout} disabled={loggingOut}>{loggingOut ? "Signing out…" : "Log out"}</button>}
           </nav>
         )}
       </header>
@@ -133,7 +134,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
         <div className="container footer-top">
           <div>
-            <Link className="brand" href="/">
+            <Link className="brand" href="/" aria-label="Campus Bucket home">
               <span className="brand-icon">
                 <IconBucket size={26} />
               </span>
@@ -147,13 +148,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </p>
           </div>
           <div>
-            <h4>Get campus ready</h4>
+            <h3>Get campus ready</h3>
             <Link href="/kits">All kits</Link>
             <Link href="/kits/ultimate-fresher">Ultimate bundle</Link>
             <Link href="/build-your-own">Build your own</Link>
           </div>
           <div>
-            <h4>Here to help</h4>
+            <h3>Here to help</h3>
             <Link href="/orders">Track your order</Link>
             <Link href="/about#faq">FAQs</Link>
             <Link href="/about#contact">
@@ -162,9 +163,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <a href="mailto:team@campusbucket.live">team@campusbucket.live</a>
           </div>
           <div>
-            <h4>The small print</h4>
+            <h3>The small print</h3>
             <Link href="/about#delivery">Delivery & returns</Link>
-            <Link href="/about#privacy">Privacy</Link>
+            <Link href="/privacy">Privacy policy</Link>
+            <Link href="/terms">Terms & conditions</Link>
           </div>
         </div>
         <div className="container footer-wordmark" aria-hidden="true">

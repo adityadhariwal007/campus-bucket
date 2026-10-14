@@ -121,6 +121,7 @@ export default function Login() {
     setMessage("");
     const f = new FormData(e.currentTarget);
     try {
+      if (f.get("website")) throw new Error("Unable to submit this form.");
       const email = String(f.get("email")).trim(),
         password = String(f.get("password"));
       if (signup) {
@@ -128,7 +129,7 @@ export default function Login() {
           email,
           password,
           options: {
-            data: { name: String(f.get("name")).trim() },
+            data: { name: String(f.get("name")).trim(), website: String(f.get("website") || "") },
             emailRedirectTo: `${window.location.origin}/login`,
           },
         });
@@ -159,6 +160,7 @@ export default function Login() {
     const form = new FormData(e.currentTarget);
     setBusy(true); setError(""); setMessage("");
     try {
+      if (form.get("website")) throw new Error("Unable to submit this form.");
       if (recovery) {
         const password = String(form.get("password"));
         validateNewPassword(password, String(form.get("confirm")));
@@ -219,6 +221,7 @@ export default function Login() {
       <div className="auth-form">
         {forgot || recovery ? (
           <form onSubmit={recover}>
+            <label className="form-trap" aria-hidden="true">Leave blank<input name="website" tabIndex={-1} autoComplete="off" /></label>
             <span className="eyebrow">YOUR ACCOUNT</span>
             <h2>{recovery ? "Choose a new password." : "Forgot your password?"}</h2>
             <p>{recovery ? "Enter your new password twice to save it." : "We'll email you a secure link to reset it."}</p>
@@ -316,6 +319,7 @@ export default function Login() {
               </div>
             ) : (
               <form onSubmit={submit}>
+                <label className="form-trap" aria-hidden="true">Leave blank<input name="website" tabIndex={-1} autoComplete="off" /></label>
                 {signup && (
                   <label>
                     Your name

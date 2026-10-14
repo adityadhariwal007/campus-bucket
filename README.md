@@ -192,3 +192,13 @@ All new photography is left to the owner. Replace image URLs in `src/lib/media.t
 See `DESIGN.md` for the component and media guide, `SECURITY_AUDIT.md` for findings and limits, and `VERIFICATION.md` for test evidence. The database now caps each account at 10 new orders/hour and 50/day. The deployed Cloudflare binding rate-limits site requests. Admin pages verify the session on the server; RLS independently protects database writes.
 
 To redeploy after an edit, run `npm run typecheck`, `npm test`, `npm run test:db`, `npm run build:cloudflare`, then `npm run deploy:cloudflare`. Keep `.env.local` out of archives and source control; only the public Supabase URL and publishable key are needed. The older Vercel deployment is not the current release.
+
+## Launch pages and checks
+
+- `/terms`, `/privacy`: store policies; review the wording against your actual operations before relying on them.
+- `/social-preview`: view the card used when sharing the website. Browser and Apple icons are in `src/app`; the social card is `public/social-preview.png`.
+- `src/lib/metadata.ts` and route layouts control page titles, descriptions, canonical URLs and social metadata. `sitemap.xml` reads current public kit IDs; private account/order pages use noindex.
+- Cloudflare Web Analytics is already enabled for campusbucket.live. View it in Cloudflare → Analytics → Web analytics. No analytics key is required in `.env.local`.
+- In production, signup and password recovery go through `/api/account/signup` and `/api/account/recover`. Cloudflare applies `ACCOUNT_LIMITER` (5 attempts/IP/minute). Local Next development uses Supabase directly; use the Cloudflare preview to test the gateway. Limits and a honeypot provide basic spam controls; they do not replace a CAPTCHA for sustained abuse.
+- The served campus image is `public/campus.webp`; `public/campus.png` is the retained original. Update `src/lib/media.ts` when replacing it.
+- See VERIFICATION.md for the live link checks and the mobile PageSpeed report.
