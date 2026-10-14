@@ -22,6 +22,7 @@ export const securityHeaders = {
   "Strict-Transport-Security": "max-age=31536000",
 };
 export function safeNext(value: string | null) {
+  if (value === "marketplace") return "/marketplace";
   return value === "checkout"
     ? "/checkout"
     : value === "admin"

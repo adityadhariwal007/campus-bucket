@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { kitLabel } from "@/lib/catalog";
 import { useEffect, useState } from "react";
 import { IconPlus, IconEdit, IconX } from "@tabler/icons-react";
@@ -177,6 +178,7 @@ export default function Admin() {
   );
   return (
     <div className="container page admin-workspace">
+      <Link href="/admin/marketplace" className="button secondary">Thapar Market · Moderation & emails ↗</Link>
       <PageHeading
         eyebrow="CAMPUS BUCKET / BACKSTAGE"
         title="Store dashboard."

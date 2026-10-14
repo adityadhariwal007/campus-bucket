@@ -9,5 +9,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (error) throw new Error("Catalog unavailable");
     kits = data;
   }
-  return ["/", "/kits", "/build-your-own", "/about", "/terms", "/privacy", ...kits.map((kit) => `/kits/${encodeURIComponent(kit.id)}`)].map((path) => ({ url: `https://campusbucket.live${path}` }));
+  return ["/", "/marketplace", "/marketplace/guide", "/kits", "/build-your-own", "/about", "/terms", "/privacy", ...kits.map((kit) => `/kits/${encodeURIComponent(kit.id)}`)].map((path) => ({ url: `https://campusbucket.live${path}` }));
 }

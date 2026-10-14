@@ -87,3 +87,16 @@ Campus photo uses 480px (about 15KB), 960px (about 50KB) and 1600px sources; 390
 Eighteen unit checks, disposable-database authorization checks, production build and sixteen live security probes passed. npm audit: zero known advisories. Six live tables have RLS. Historical secret-pattern scan: 133 blobs, zero matches. Security advisor warning and rate-limit consistency limitation are documented in SECURITY-REVIEW.md. The initial strict burst-limit assertion failed; it was replaced with a bounded sustained check matching the documented platform behavior, not treated as a hard global five-request guarantee.
 
 Final release `ceb5fac0-4360-471f-a0d0-74fc66116c13`: live audit passed 22 pages and 38 internal links; homepage visible text has no old level names; individual search result opens the correct filtered builder. Proof: output/campus-bucket-search-mobile-live.png.
+
+## Thapar Market pilot · 15 October 2026
+
+Cloudflare version: `8575a36c-2d3d-49f9-839a-5015e10ed417`. Published to both custom-domain Worker routes.
+
+- TypeScript, 21 unit checks, original store database suite, marketplace database/transport suite and the production Cloudflare build pass. Runtime dependency audit reports zero known advisories.
+- All 22 bounded live marketplace checks pass. Anonymous access to ten marketplace tables and both RPCs is denied; the private image bucket is not listable anonymously; five marketplace pages render with private/security headers; moderation redirects to login; SQL/environment files return 404. Evidence: ignored `output/marketplace-live-checks.json`.
+- All 12 marketplace tables have RLS. Authenticated clients cannot read decrypted Vault secrets or the private mail queue, or execute the email worker. The minute scheduler has run successfully. Production started with zero marketplace profiles and listings.
+- Mobile landing/guide inspected at 320 and 390 pixels; tablet navigation inspected at 768. No horizontal document overflow was observed. Header search carries the typed query into marketplace search. Sign-in and guest gates render correctly. No captured browser warnings/errors on the inspected pages.
+- Live phone proof: `output/campus-bucket-marketplace-mobile-live.png`. Scroll translations are progressive CSS enhancements; reduced-motion and non-supporting browsers retain content.
+- The 14 deployed private marketplace functions were compared to their tested source definitions after publishing the SQL. Marketplace migration records use UTC versions `20261014222201` and `20261014222202`.
+
+Limits: authenticated multi-user access rules were exercised in disposable PostgreSQL, not a real production student handover. No owner credentials were used to complete the new marketplace opt-in, no student listings were fabricated, and no actual marketplace email was sent. Brevo API setup and inbox delivery remain pending; SMTP confirmation email is a separate system. Physical-device photo upload, a fresh field performance score, and an independent penetration test were not performed. The earlier store PageSpeed result should not be presented as a new marketplace score.

@@ -32,6 +32,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const [bucketOpen, setBucketOpen] = useState(false);
   const count = cart.reduce((s, l) => s + l.quantity, 0);
   const links = [
+    ["/marketplace", "Thapar Market"],
     ["/kits", "All kits"],
     ["/build-your-own", "Build your own"],
     ["/orders", "Track order"],
@@ -43,7 +44,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <div className="announcement">
-        New campus. New chapter. <strong>Get 10% off with CAMPUS10</strong>
+        Thapar, pass it forward. <strong>Meet your campus marketplace</strong>
         <span>Made for your firsts ↗</span>
       </div>
       <header className="site-header">

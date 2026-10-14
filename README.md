@@ -1,212 +1,115 @@
 # Campus Bucket
 
-Live website: https://campusbucket.live (also https://www.campusbucket.live)
+Live: [campusbucket.live](https://campusbucket.live) · [Thapar Market](https://campusbucket.live/marketplace)
 
-A responsive campus essentials store built with Next.js, React, Tailwind CSS, and Supabase. Includes all nine requested kit tiers, the Ultimate Fresher Bundle, 30 individual products, editable photography slots, cart, checkout, account pages, tracking, and a catalog/order admin dashboard.
+Campus essentials store and a Thapar-first student resale marketplace. Next.js, React, Supabase and Cloudflare Workers. The existing store, orders and admin accounts remain connected to the same database.
 
-**Checkout currently collects no payment.** Without Supabase settings, the app runs as a browser-local demo. With Supabase configured, email accounts, stock, orders, and administrator permissions use your database. Demo data is not automatically uploaded to Supabase.
+## Run locally
 
-## 1. Run it on your computer
-
-Install Node.js 22 or 24 LTS from https://nodejs.org. Open Terminal in this project folder, then run:
+Install Node.js 22 or 24 LTS, open this project folder in a terminal, then:
 
 ```sh
 npm ci
-npm run dev
+cp .env.example .env.local
 ```
 
-Open the local address printed in Terminal, normally http://localhost:3000. If another app uses that port, Next.js chooses the next free one.
-
-No keys are needed to explore the demo. Click the account icon, then **Explore with a demo account**. This also unlocks the demo admin dashboard. Use made-up customer details. Demo data persists in this browser; the demo sign-in lasts for the browser tab session. Clear this site's browser storage to start fresh.
-
-To stop the server, press Control+C in Terminal.
-
-## 2. Project structure
-
-```text
-src/
-  app/
-    page.tsx                 Homepage
-    kits/page.tsx            Category, tier, and search filters
-    kits/[id]/page.tsx       Contents, quantities, sizes, comparison
-    build-your-own/page.tsx  Individual item shopping
-    cart/page.tsx            Quantity edits, remove, totals
-    checkout/page.tsx        Address, pickup, discounts, unpaid order submission
-    order-success/page.tsx   Saved order confirmation
-    orders/page.tsx          Customer order tracking
-    login/page.tsx           Supabase signup/login or demo access
-    about/page.tsx           Story, FAQ, contact, draft policies
-    admin/page.tsx           Product/kit editing and order status
-    globals.css              Editorial design tokens and responsive styles
-    layout.tsx               Fonts, navigation, footer, store provider
-    loading.tsx / error.tsx / not-found.tsx
-  components/                Shared store, cards, size controls, totals
-  lib/
-    catalog.ts               Editable seed catalog and sample prices
-    commerce.ts              Cart, stock, discount, address validation
-    supabase.ts              Browser client with public key only
-    types.ts                 Shared data types
-supabase/
-  schema.sql                 Tables, policies, transactional functions
-  seed.sql                   30 products, 10 kits, all kit items
-  generate-seed.ts            Rebuild seed.sql from catalog.ts
-src/lib/media.ts             All image URLs, descriptions, sizes and crops
-worker.ts                    Cloudflare rate limit and request protection
-src/middleware.ts            CSP nonces and authentication cookie refresh
-assets/previous-design/      Archived generated images, not publicly served
- tests/                      Commerce tests and database security checks
-```
-
-The UI talks directly to Supabase's authenticated Data API. Checkout is one database transaction, so there is no separate API server to configure. Privileged operations live in the non-exposed `private` schema and require a signed-in user or an administrator check. Public wrappers run with caller permissions. Never expose the `private` schema in your Data API settings.
-
-## 3. Supabase accounts and database
-
-The deployed website already uses project `zbdezzafnqwmqmdxdmmo`. Its schema, seed, RLS and security migration are installed. Do not run schema.sql again on that project. Public confirmation-email delivery and the first administrator still need setup. The owner chose `founder@campusbucket.live`.
-
-For a separate, empty installation only:
-
-1. Create a new project at https://supabase.com/dashboard. Choose your region and save the database password privately.
-2. Open **SQL Editor**. Paste the entire contents of `supabase/schema.sql` and click **Run**. Run it once, on an empty project.
-3. Open another SQL query, paste `supabase/seed.sql`, and run it. The seed can be rerun without overwriting existing prices or stock.
-4. Open the project's **Connect** dialog or API settings. Copy the **Project URL** and **publishable key**.
-5. Copy `.env.example` to `.env.local` in this folder. Fill in:
+Fill in the two public settings in `.env.local` using your Supabase project's Connect/API settings:
 
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR-PUBLISHABLE-KEY
 ```
 
-These two settings are intended for the browser. **Never put a service-role key, secret key, database password, or Razorpay secret in a `NEXT_PUBLIC_` variable.** This application does not need a service-role key.
-
-6. Under **Authentication → URL Configuration**, set the Site URL to your app's URL and add `http://localhost:3000/login` (or your actual local port) and `https://YOUR-DEPLOYMENT/login` to allowed redirect URLs.
-7. Enable email/password authentication. Keep email confirmation enabled. For a real launch, configure reliable SMTP in Supabase.
-8. Restart `npm run dev`. In the app, choose **Create an account**, complete the form, confirm your email, and sign in.
-9. Add the first store administrator through SQL Editor after that person has signed up:
-
-```sql
-insert into public.admin_users (user_id)
-select id from auth.users where lower(email) = 'founder@campusbucket.live'
-  and email_confirmed_at is not null
-on conflict do nothing;
-```
-
-This grants access only after the selected founder email is confirmed. Sign out and sign back in to refresh the admin UI. Ordinary users cannot grant themselves admin access. Removing the row revokes database admin operations immediately.
-
-If catalog access fails, confirm the public schema is exposed to the Data API. The schema already explicitly grants necessary table access and enables row-level security on every public table.
-
-## 4. Try a complete order
-
-1. Open Student Kit → Scholar.
-2. Choose cap and t-shirt sizes, then **Add to bucket**.
-3. Edit the quantity in your bucket and continue to checkout.
-4. Sign in if prompted. Enter a full name, valid-format 10-digit Indian mobile number, email, and campus.
-5. Choose hostel delivery and enter a hostel/room, or choose campus pickup.
-6. Apply **CAMPUS10** for 10% off. Discount amounts round to whole rupees. Pickup is free. Hostel delivery is ₹49 unless the post-discount item total is at least ₹1,499.
-7. Choose **Place order**. No payment is collected. The order is saved for store-team confirmation; it must not be treated as paid.
-8. Open My Orders. In a separate admin session, advance the order through Placed → Packed → Out for delivery → Delivered. Use **Refresh status** to see the change.
-
-The database recalculates prices from its own catalog, checks all required sizes, counts shared items across kits, locks stock, and saves orders atomically. Retrying the same checkout reference returns the existing order. Order prices are saved at purchase time.
-
-## 5. Edit kits, prices, and stock
-
-The admin dashboard lets authorized users create/edit products and kits, set whole-rupee prices, update stock, set size selectors, choose kit contents and quantities, and update order status. It intentionally provides no destructive delete action. Set stock to zero to stop sales.
-
-- Product image: an HTTPS image URL. Empty or legacy sprite values display a labeled placeholder until you add your photos.
-- Stock: both the kit's available quantity and its component product inventory limit purchases. Six hangers are consumed for one Hostel Kit.
-- Sizing: one shared shirt size per kit, one cap size, and one shoe size where relevant. Buy separate items to mix sizes. Stock is currently per product, not per size.
-- Student Topper includes two premium notebooks and two campus t-shirts. Sports Topper uses running shoes for the requested shoes-or-sport-specific-gear choice.
-- The Ultimate Bundle contains all three **Fresher** kits and costs ₹1,149 versus ₹1,347 separately.
-
-To change the initial demo/seed catalog, edit `src/lib/catalog.ts`, then run `npm run seed:generate`. Existing database rows and browser demo data are deliberately not overwritten. Use the admin panel for an existing store.
-
-Discount and delivery rules live in `src/lib/commerce.ts` and `private.checkout` in `supabase/schema.sql`. Keep both in sync when changing these rules. Promotional text is in the shell and checkout pages.
-
-## 6. Deploy on Vercel
-
-### Easy route: GitHub import
-
-1. Create a GitHub repository and upload this project. Include `package-lock.json`. Do not upload `node_modules`, `.next`, or `.env.local`.
-2. At https://vercel.com/new, import that repository.
-3. Select **Next.js**. Leave the root directory as the repository root. The build command is `npm run build`; Vercel detects the output automatically.
-4. To keep the demo, leave environment settings empty. For shared database accounts/orders, add the two `NEXT_PUBLIC_SUPABASE_...` values above to the correct Vercel environment before building.
-5. Click **Deploy**. Open the resulting HTTPS address.
-6. For Supabase, update its Site URL and allowed login redirect URL to match the deployment.
-7. When public environment settings change, redeploy; Next.js embeds them at build time.
-
-### Terminal route
+These are public client configuration. Never add a service-role key, database password or Brevo API key to a `NEXT_PUBLIC_` variable. Keep `.env.local` out of Git.
 
 ```sh
-npx vercel login
-npx vercel link
-npx vercel deploy
+npm run dev
 ```
 
-Choose the intended account and the Campus Bucket project. The first deployment is a preview. After checking it, use `npx vercel deploy --prod` for production. Never turn off deployment protection just to test a protected preview.
+Open the localhost address printed in the terminal. Stop with Control+C. Local browsing without database settings does not provide working accounts or a marketplace.
 
-## 7. Deploy on Cloudflare
+## Where things live
 
-This project includes a Cloudflare Workers build using the OpenNext adapter. Next.js is pinned to 16.3.8 because the adapter's runtime does not yet handle the preview manifest introduced in 16.4. The nested `glob` override fixes a build-tool security advisory.
-
-```sh
-npm ci
-npx wrangler login --scopes account:read user:read workers:write workers_scripts:write workers_routes:write zone:read
-npm run build:cloudflare
-npm run preview:cloudflare
+```text
+src/app/marketplace/          Discover, detail, sell, inbox, own listings, guide
+src/app/admin/marketplace/    Server-protected moderation dashboard
+src/components/market/       Marketplace UI and authenticated database calls
+src/lib/marketplace.ts       Validation, types and campus-time helpers
+supabase/marketplace.sql     Marketplace tables, RLS, checked RPCs, storage
+supabase/marketplace-email.sql  Vault, private outbox, scheduled delivery
+src/components/store.tsx    Existing store/cart/account integration
+supabase/schema.sql          Existing store schema and checkout rules
+supabase/seed.sql            Store kits/products only; no resale listings
+MARKETPLACE-PLAN.md           Research, differentiation and launch operations
+SECURITY-REVIEW.md            Findings and testing limits
 ```
 
-Open the preview address and check the store. Stop it with Control+C, then publish:
+## Database setup
 
-```sh
-npm run deploy:cloudflare
-```
+The live project is `zbdezzafnqwmqmdxdmmo`. **The store and both marketplace migrations are already installed there. Do not rerun their CREATE statements on it.** Live marketplace starts empty, with no invented students or listings.
 
-`wrangler.jsonc` selects your Cloudflare account and routes all requests for `campusbucket.live` and `www.campusbucket.live` to the Worker. Both hostnames must retain proxied DNS records in the Cloudflare zone. The existing records and email settings are preserved; the Worker serves the full site before requests reach the old parking origin. Cloudflare supplies HTTPS through the zone's certificate. Responsive photo URLs are defined in `src/lib/media.ts`; a paid Cloudflare Images binding is not required.
+For a separate empty Supabase project, run these files once in SQL Editor, in this order:
 
-If Supabase is enabled, set the two public values in `.env.local` before building locally, or as build variables in Cloudflare Workers Builds. Update Supabase's Site URL to `https://campusbucket.live` and allow `https://campusbucket.live/login`. Rebuild and deploy whenever these public settings change. Never publish database passwords or service-role keys.
+1. `supabase/schema.sql`
+2. `supabase/seed.sql` (editable store inventory)
+3. `supabase/marketplace.sql`
+4. `supabase/marketplace-email.sql` (hosted Supabase with Vault, pg_net and pg_cron)
 
-## 8. Checks
+Expose only `public` in the Data API; never expose `private`, `vault`, `net` or `cron`. New marketplace tables are protected by RLS. Writes use checked functions; changing the UI cannot grant ownership, verification or admin rights.
+
+In Supabase Auth, keep email confirmation enabled, set the Site URL to `https://campusbucket.live`, and allow your actual localhost login URL plus `https://campusbucket.live/login` as redirects. Google OAuth and account email use the existing provider configuration. Changing your project also requires updating the fixed provider/domain security settings in `src/lib/security.ts`, `src/lib/account-proxy.ts`, and `worker.ts` as applicable.
+
+The two confirmed store admin accounts are `founder@campusbucket.live` and `team@campusbucket.live`. Their privileges come from `admin_users`, not the email typed into a form. Sign in normally, then open the marketplace section in the admin dashboard.
+
+## Operate Thapar Market
+
+- Confirmed `@thapar.edu` members can join automatically. Other students submit programme, batch and roll number; an admin must verify those details independently and record a review decision. Do not approve an unverifiable claim.
+- Listings need 1–4 actual-item photos and review before publication. The website resizes photos and strips metadata. Editing details returns a listing to review; price-only updates can stay live.
+- Interested buyers open participant-only chat. Both sides agree a public meeting point/time. Phone sharing requires consent; blocking removes shared numbers. Members can report listings/conversations.
+- Only a seller confirmation followed by the buyer's confirmation counts as a completed handover. Students inspect and pay each other directly. There is no escrow or guaranteed buyer protection.
+- Active unsold items aged seven days rotate in Second look. Sellers receive at most a weekly nudge. Price suggestions never apply automatically; actual price drops notify saved-item followers.
+- The scheduled job expires listings after 45 days or an earlier availability deadline. It also runs the durable email queue every minute.
+
+### Enable marketplace emails
+
+Working Supabase SMTP is separate from marketplace transactional emails.
+
+1. In Brevo, create an **API key**, not an SMTP key. Ensure `team@campusbucket.live` is an authorised sender.
+2. Sign in as a store admin, open **Marketplace → Email delivery**, and paste the key into the password field. It is stored in Supabase Vault and never returned to the browser. Do not paste it in chat or source code.
+3. Enable your own email notifications under **Your listings**, then send a connection test from the dashboard.
+4. Allow a minute, check the recipient inbox/spam and Brevo transactional logs. “Provider accepted” is not proof of inbox delivery. Unknown outcomes need checking before any manual resend.
+
+The queue is installed, but the live marketplace API key has not yet been supplied. In-app notifications work independently of email. Members can switch email alerts off.
+
+## Payments
+
+No online payment is collected for store orders or resale items. The owner deferred the proposed ₹10 listing-fee payment decision. The marketplace pilot collects no posting fee. Integrate and verify a real payment provider before charging anyone; never accept screenshots as automatic payment verification.
+
+## Check and deploy
 
 ```sh
 npm run typecheck
 npm test
 npm run test:db
-npm run build
+npm run test:marketplace
+npm run build:cloudflare
+npm run preview:cloudflare
 ```
 
-`test:db` uses embedded PostgreSQL through PGlite, creates temporary Auth roles, and tests the actual SQL files. It does not connect to or change a live Supabase project. It checks prices, discount totals, retries, rollback, stock aggregation, user isolation, and admin permissions. The chosen Supabase project is connected; delivered confirmation emails and the complete hosted signup/login flow still need verification.
+The database suites use disposable PostgreSQL instances and synthetic data; they never contact real students. The marketplace suite also substitutes an isolated mail transport to check provider responses and retries without sending email.
 
-For production locally: `npm run build` then `npm start`. If a local sandbox blocks Turbopack workers, `npm run build -- --webpack` is also supported.
+After your Cloudflare account is authorised in Wrangler:
 
-## 9. Before accepting real orders
+```sh
+npm run deploy:cloudflare
+```
 
-Checkout collects no payment and saves an unpaid order for store-team confirmation. A future Razorpay integration needs server-created payment orders, server-side signature verification, verified webhooks, and a stock reservation/expiry strategy before real money changes hands.
+`wrangler.jsonc` contains the existing custom-domain routes and rate-limit bindings. Rebuild before deployment after public environment changes. Keep the current OpenNext/Workers hosting; changing hosts requires a separate adapter/deployment configuration.
 
-Configure an SMTP provider, confirm the founder account, and then grant its administrator membership using the SQL above. Publish supported campuses and pickup hours, finalize delivery/returns/privacy policies, add your product photos, and set final prices and stock. The admin list loads the latest 200 orders; add pagination before the shop exceeds that volume.
+Optional bounded live checks, using only public settings:
 
-Earlier generated visuals are archived in `assets/previous-design` and are not publicly served. Current photo slots are documented in `DESIGN.md`.
+```sh
+node --env-file=.env.local tests/marketplace-live.mjs
+```
 
-## Latest editorial design and security update
-
-All new photography is left to the owner. Replace image URLs in `src/lib/media.ts`; empty product/cutout slots show neutral labeled frames. Google Fonts are self-hosted at build time. Motion library URLs and integrity hashes are pinned in `src/lib/motion-scripts.json`. No unconnected newsletter form or fictional reviews are displayed.
-
-See `DESIGN.md` for the component and media guide, `SECURITY_AUDIT.md` for findings and limits, and `VERIFICATION.md` for test evidence. The database now caps each account at 10 new orders/hour and 50/day. The deployed Cloudflare binding rate-limits site requests. Admin pages verify the session on the server; RLS independently protects database writes.
-
-To redeploy after an edit, run `npm run typecheck`, `npm test`, `npm run test:db`, `npm run build:cloudflare`, then `npm run deploy:cloudflare`. Keep `.env.local` out of archives and source control; only the public Supabase URL and publishable key are needed. The older Vercel deployment is not the current release.
-
-## Launch pages and checks
-
-- `/terms`, `/privacy`: store policies; review the wording against your actual operations before relying on them.
-- `/social-preview`: view the card used when sharing the website. Browser and Apple icons are in `src/app`; the social card is `public/social-preview.png`.
-- `src/lib/metadata.ts` and route layouts control page titles, descriptions, canonical URLs and social metadata. `sitemap.xml` reads current public kit IDs; private account/order pages use noindex.
-- Cloudflare Web Analytics is already enabled for campusbucket.live. View it in Cloudflare → Analytics → Web analytics. No analytics key is required in `.env.local`.
-- In production, signup and password recovery go through `/api/account/signup` and `/api/account/recover`. Cloudflare applies `ACCOUNT_LIMITER` (configured for approximately 5 attempts/IP/minute per location; short bursts can pass). Local Next development uses Supabase directly; use the Cloudflare preview to test the gateway. Limits and a honeypot provide basic spam controls; they do not replace a CAPTCHA for sustained abuse.
-- The served campus image is `public/campus.webp`; `public/campus.png` is the retained original. Update `src/lib/media.ts` when replacing it.
-- See VERIFICATION.md for the live link checks and the mobile PageSpeed report.
-
-## Shop levels and search
-
-Customer-facing levels are Essential, Plus and Premium. Stored tier keys and kit URLs are intentionally unchanged to preserve old carts, orders and links. The shared kitLabel helper translates display text, including historical order names and metadata. Update the display mapping rather than rewriting existing IDs.
-
-The header search opens an accessible dialog and matches kit contents, level names, categories and individual products. Individual results open Build your own with a bounded q parameter. Native dialog focus and Escape behavior work on phones. The campus photograph has 480px and 960px WebP sources; product frames use contain to avoid cutting off inventory.
-
-Security test scope and remaining findings: see SECURITY-REVIEW.md.
+Database migrations and Worker releases have separate rollback lifecycles. A Worker rollback does not undo database changes. Review the dated security/verification records before widening launch.

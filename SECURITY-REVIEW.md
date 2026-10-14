@@ -26,3 +26,14 @@ node --env-file=.env.local tests/live-security.mjs
 ```
 
 The live check uses only public configuration, caps its invalid-signup probes at 12, and may briefly apply a signup/recovery cooldown to the testing IP. Detailed transient output is stored in the ignored output folder. Real email delivery, Google consent, physical-device behavior, and an independent authenticated production penetration test remain unverified.
+
+## Thapar marketplace extension · 15 October 2026
+
+- All ten new public tables plus private mail/audit tables have RLS. No anonymous marketplace table/RPC access is granted. Direct listing-column access is restricted; sensitive notes are returned only through owner/admin reads. Real photos are in a private bucket with short-lived signed links.
+- PostgreSQL regression tests execute the actual marketplace SQL with separate seller, buyer, unrelated member, manual-review applicant and administrator roles. They cover exact institutional domains, spoofed verification fields, ownership, pending listing isolation, private/unpublished photos, moderation-note isolation, reported-only chat inspection by admins, literal SQL/HTML payloads, message idempotency and quotas, older-message cursors, phone consent, blocked contacts, suspension, two-sided handovers and price-alert deduplication after resubmission.
+- The email transport test uses local stand-ins for Vault, pg_net and cron. It checks private key access denial, configured/unconfigured states, opt-out, fixed provider destination, event-only email text, provider acceptance/rejection, ambiguous timeouts, and safe retry selection. No emails are sent by those tests.
+- Live checks confirm clients cannot read Vault plaintext or private mail, run the mail worker, or call anonymous write RPCs. The scheduled worker has succeeded with no API key configured. The live database contains no seeded marketplace students or resale listings.
+- The Supabase advisor reports two informational notices because the private outbox and audit tables intentionally have RLS without client policies; clients have no grants. No permissive policy was added to silence them. Reference: https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy
+- The pre-existing leaked-password-protection warning remains. Runtime dependency audit reports zero known advisories for this release. This does not establish absence of vulnerabilities.
+
+Marketplace testing is scoped, not an independent production penetration test. Authenticated multi-user flows were tested against disposable PostgreSQL, not real students' production accounts. Mailbox delivery awaits the owner's Brevo API key and a real connection test. Physical-phone camera/HEIC behavior and an actual student-to-student handover were not exercised. Phone-sharing revocation cannot erase a number someone has already copied; signed photos can similarly be copied by their recipients.

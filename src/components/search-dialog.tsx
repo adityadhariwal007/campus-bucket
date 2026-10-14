@@ -27,6 +27,7 @@ export function SearchDialog({ close }: { close: () => void }) {
       </div>
       <label htmlFor="site-search">Search kits or individual items</label>
       <input id="site-search" type="search" autoFocus autoComplete="off" maxLength={100} placeholder="Try towel, sports or Premium…" value={query} onChange={event => setQuery(event.target.value)} />
+      <Link className="search-result" href={`/marketplace?q=${encodeURIComponent(query.trim())}`} onClick={close}><span><strong>Search Thapar Market ↗</strong><small>Second-hand finds · verified members only</small></span></Link>
       {!query.trim() ? <p className="muted">Find a kit, an upgrade or the one thing you forgot to pack.</p> : !ready ? <p role="status">Loading the catalog…</p> : <>
         <p className="small muted" role="status">{count} {count === 1 ? "result" : "results"} for “{query}”</p>
         {error && <p role="alert">The catalog could not refresh. Try again shortly.</p>}

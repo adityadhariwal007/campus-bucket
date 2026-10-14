@@ -57,3 +57,15 @@ Live version above includes policy pages, social metadata/card, icons, custom 40
 ## Shop names and search release · 15 October 2026
 
 Essential / Plus / Premium display names preserve stored keys and existing kit links. Header heart removed; search opens a phone-friendly native dialog with kit-contents and individual-item matching. Story policy sections removed; standalone policy links retained. Responsive campus WebP variants and uncropped product frames included. Security findings and scoped live checks are in SECURITY-REVIEW.md. No database records or schema changed for this release.
+
+## Thapar Market pilot · 15 October 2026
+
+New marketplace source is described in README.md and MARKETPLACE-PLAN.md. Supabase migration records: `20261014222201_thapar_marketplace` and `20261014222202_thapar_marketplace_email` (UTC database versions). Applied through the signed-in SQL Editor after the migration connector returned an internal request-state error; checked database functions and privileges directly afterward.
+
+The private bucket, verified-member access, listing review, participant chat, meetup consent, seller tools, moderation, durable outbox and minute scheduler are installed. No real accounts, fake resale stock or pretend transactions were seeded. The existing store seed is separate.
+
+**Owner setup still needed:** sign in as an existing administrator, open the marketplace dashboard, create your marketplace profile when prompted, and add a Brevo **API** key under Email delivery. SMTP already working for signup does not supply this credential. Enable your email preference and send a connection test. Do not report emails as delivered from the provider-accepted counter alone.
+
+Posting-fee collection is disabled for the pilot at the owner's request; the intended ₹10 method remains undecided. No new payment or paid service was purchased. Existing customers' store data and orders remain in place. Worker rollback and database rollback remain separate.
+
+Published Worker version: `8575a36c-2d3d-49f9-839a-5015e10ed417`. All 22 bounded marketplace live checks pass. The deployment's Node child-process deprecation message comes from the installed deployment tooling; no user input is interpolated into deployment commands.

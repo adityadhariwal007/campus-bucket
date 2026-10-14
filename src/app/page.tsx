@@ -31,7 +31,10 @@ function FeaturedKit({
         </span>
         <span>{kit.items.reduce((s, i) => s + i.quantity, 0)} essentials</span>
       </div>
-      <Link href={`/kits/${kit.id}`} aria-label={`View ${kit.name} ${kitLabel(tier)}`}>
+      <Link
+        href={`/kits/${kit.id}`}
+        aria-label={`View ${kit.name} ${kitLabel(tier)}`}
+      >
         <KitVisual kit={kit} />
       </Link>
       <div className="row between kit-title">
@@ -94,6 +97,24 @@ export default function Home() {
             <br />↗
           </span>
         </div>
+      </section>
+      <section className="container market-home-callout">
+        <span className="eyebrow">THAPAR MARKET / THE NEXT CHAPTER</span>
+        <h2>
+          Done with it?
+          <br />
+          <em>Someone isn’t.</em>
+        </h2>
+        <p>
+          Books, cycles, hostel finds. Pass them on within your campus circle,
+          with private chat and an agreed handover.
+        </p>
+        <Link className="button primary" href="/marketplace">
+          Explore Thapar Market ↗
+        </Link>
+        <Link className="text-link" href="/marketplace/sell">
+          Have something to sell? ↗
+        </Link>
       </section>
       <CampusRibbon />
       <div
@@ -183,7 +204,12 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="kit-rail-window" role="region" aria-label="Explore kit categories" tabIndex={0}>
+        <div
+          className="kit-rail-window"
+          role="region"
+          aria-label="Explore kit categories"
+          tabIndex={0}
+        >
           <div className="kit-rail">
             {categories
               .filter((c) => category === "All" || category === c)
@@ -217,7 +243,10 @@ export default function Home() {
                 <s>{money(separate)}</s>
               </div>
               <span className="saving-tag">
-                Save ₹<span data-count={Math.max(0, separate - bundle.price)}>{Math.max(0, separate - bundle.price)}</span>
+                Save ₹
+                <span data-count={Math.max(0, separate - bundle.price)}>
+                  {Math.max(0, separate - bundle.price)}
+                </span>
               </span>
               <Link className="button butter" href="/kits/ultimate-fresher">
                 Make it a bundle <IconArrowUpRight size={20} />
