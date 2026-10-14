@@ -52,3 +52,7 @@ Security advisor now reports leaked-password protection disabled; its availabili
 - Added reset-email request and recovery-password forms using Supabase Auth. Reset links return to the existing /login URL and should be opened in the requesting browser (PKCE). No password-reset email was sent during testing.
 - Admin overview, order stages, catalog filters, stock filters, and automatic routing for verified admin membership are included. Public admin links are removed.
 - Twelve unit checks, database authorization checks, type checking and Cloudflare build passed. Authenticated logout, real Google consent, and reset-email delivery still need owner verification.
+
+## Header visibility repair — 15 October 2026
+
+Removed scroll-driven header hiding and compact-height changes. These classes were applied outside GSAP's context and could persist after homepage navigation, leaving the logo and navigation partly offscreen. Header now retains its normal sticky position and full height. Typecheck, 12 unit checks, and Cloudflare build passed.

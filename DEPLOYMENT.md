@@ -6,7 +6,7 @@ Verified 14 October 2026.
 - Also live: https://www.campusbucket.live
 - Hosting: Cloudflare Workers with OpenNext
 - Worker: `campus-bucket`
-- Deployed version: `192867c0-10bf-4c1c-a9c2-ee85fc621b13`
+- Deployed version: `97bf0a7d-4e33-42b4-b552-978b7aaf5b61`
 - Routes: `campusbucket.live/*` and `www.campusbucket.live/*`
 - Next.js 16.3.8; OpenNext Cloudflare 1.20.11; Wrangler 4.150.0
 - Existing proxied DNS records and email routing are preserved. No paid plan or Images service was enabled.

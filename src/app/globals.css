@@ -2466,15 +2466,6 @@ textarea:focus {
   height: 80px;
   transition: height 0.4s var(--ease);
 }
-.site-header {
-  transition: transform 0.5s var(--ease);
-}
-.header-compact .nav-wrap {
-  height: 64px;
-}
-.header-down:not(:focus-within):not(:has(.mobile-nav)) {
-  transform: translateY(-100%);
-}
 .brand {
   font-size: 25px;
   letter-spacing: -1.5px;
@@ -3535,9 +3526,6 @@ textarea:focus {
   }
   .view-cursor {
     display: none;
-  }
-  .header-down {
-    transform: none;
   }
 }
 

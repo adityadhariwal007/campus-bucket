@@ -5,7 +5,6 @@ type Vars = Record<string, unknown>;
 type Tween = { kill: () => void; timeScale: (n: number) => void };
 type Trigger = {
   progress: number;
-  direction: number;
   getVelocity: () => number;
 };
 type MotionWindow = Window & {
@@ -133,15 +132,6 @@ export function Motion({ refreshKey }: { refreshKey: string }) {
             document
               .querySelector<HTMLElement>(".scroll-progress")
               ?.style.setProperty("transform", `scaleX(${self.progress})`);
-            document
-              .querySelector(".site-header")
-              ?.classList.toggle("header-compact", self.progress > 0.02);
-            document
-              .querySelector(".site-header")
-              ?.classList.toggle(
-                "header-down",
-                self.direction > 0 && self.progress > 0.04,
-              );
             marquee.timeScale(
               1 + Math.min(Math.abs(self.getVelocity()) / 1200, 2),
             );
