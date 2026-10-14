@@ -1,0 +1,19 @@
+node_modules/
+.next/
+.env*
+!.env.example
+.vercel/
+*.tsbuildinfo
+test-results/
+.open-next/
+.wrangler/
+.dev.vars*
+
+# Local artifacts and standalone authentication experiments.
+output/
+/index.html
+.DS_Store
+*.log
+.codex/
+.agents/
+supabase/.temp/

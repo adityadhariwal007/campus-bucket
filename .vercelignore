@@ -1,0 +1,7 @@
+output/
+public/images/*.png
+tests/
+supabase/
+.open-next/
+.wrangler/
+.dev.vars*
