@@ -1,6 +1,6 @@
 # Campus Bucket editorial design
 
-The layout uses the requested bone, ink, ultramarine, butter and paper palette; Bricolage Grotesque, Instrument Serif and Instrument Sans are downloaded from Google Fonts at build time and served locally by Next.js.
+The layout uses the requested bone, ink, warm charcoal, muted stone and paper palette; Bricolage Grotesque, Instrument Serif and Instrument Sans are downloaded from Google Fonts at build time and served locally by Next.js.
 
 All media slots live in `src/lib/media.ts`: source, accessible description, dimensions and focal point. Product photos and transparent cutouts remain empty, labeled frames for the owner to replace.  The homepage hero is text-only; its hostel photo, caption, preload and animation were removed at the owner’s request. The campus photograph uses the owner-provided campus.png, served from public/campus.png on the home and Our Story pages. Old generated imagery is archived outside public and no longer rendered.
 
