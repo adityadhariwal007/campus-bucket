@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata('/build-your-own', 'Build your own kit', 'Choose individual campus essentials and build a kit around what you already own.', false);
-export default function Layout({ children }: { children: React.ReactNode }) { return children; }
+export default function Layout({ children }: { children: React.ReactNode }) { return <Suspense fallback={<p className="container page" role="status">Loading your kit builder…</p>}>{children}</Suspense>; }

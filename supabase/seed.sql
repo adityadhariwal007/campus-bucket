@@ -42,7 +42,7 @@ insert into public.kits (id,name,type,tier,price,stock,description) values
 ('sports-fresher','Sports Kit','Sports','Fresher',399,50,'A fresh start for your fitness routine. Just grab your kit and go.'),
 ('sports-scholar','Sports Kit','Sports','Scholar',1399,50,'For early workouts, evening games, and finding your campus team.'),
 ('sports-topper','Sports Kit','Sports','Topper',2699,50,'The complete training kit, with running shoes to get you moving.'),
-('ultimate-fresher','Ultimate Fresher Bundle','Bundle','Fresher',1149,30,'All three Fresher kits. One happy move-in day. Save ₹198 versus buying them separately.')
+('ultimate-fresher','Ultimate Essential Bundle','Bundle','Fresher',1149,30,'All three Essential kits. One happy move-in day. Save ₹198 versus buying them separately.')
 on conflict do nothing;
 insert into public.kit_items (kit_id,product_id,quantity) values
 ('hostel-fresher','bucket',1),

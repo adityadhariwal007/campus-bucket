@@ -97,7 +97,7 @@ export function Motion({ refreshKey }: { refreshKey: string }) {
           gsap.to(counter,{value:end,duration:1,ease:"expo.out",scrollTrigger:{trigger:el,start:"top 90%",once:true},onUpdate:()=>{el.textContent=String(Math.round(counter.value));}});
         });
         document
-          .querySelectorAll(".photo-frame img")
+          .querySelectorAll(".why-stories .photo-frame img")
           .forEach((el) =>
             gsap.fromTo(
               el,

@@ -1,4 +1,6 @@
 "use client";
+import { searchCatalog } from "@/lib/search";
+import { kitLabel } from "@/lib/catalog";
 import { useState } from "react";
 import { useStore } from "@/components/store";
 import { KitCard, PageHeading, Loading } from "@/components/ui";
@@ -8,11 +10,11 @@ export default function Kits() {
   const [category, setCategory] = useState("All"),
     [tier, setTier] = useState("All"),
     [search, setSearch] = useState("");
-  const matches = catalog.kits.filter(
+  const candidates = search.trim() ? searchCatalog(catalog, search).kits : catalog.kits;
+  const matches = candidates.filter(
     (k) =>
       (category === "All" || k.type === category) &&
-      (tier === "All" || k.tier === tier) &&
-      `${k.name} ${k.tier}`.toLowerCase().includes(search.toLowerCase()),
+      (tier === "All" || k.tier === tier),
   );
   return (
     <div className="container page">
@@ -39,7 +41,7 @@ export default function Kits() {
             <select value={tier} onChange={(e) => setTier(e.target.value)}>
               <option value="All">Every tier</option>
               {tiers.map((t) => (
-                <option key={t}>{t}</option>
+                <option key={t} value={t}>{kitLabel(t)}</option>
               ))}
             </select>
           </label>

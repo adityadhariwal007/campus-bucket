@@ -1,4 +1,5 @@
 "use client";
+import { kitLabel } from "@/lib/catalog";
 import { useEffect, useState } from "react";
 import { IconPlus, IconEdit, IconX } from "@tabler/icons-react";
 import { useStore } from "@/components/store";
@@ -166,7 +167,7 @@ export default function Admin() {
     (category === "All" || p.category === category) && matchesStock(p.stock, stock),
   );
   const kits = store.catalog.kits.filter((k) =>
-    `${k.name} ${k.tier}`.toLowerCase().includes(search.toLowerCase()) &&
+    `${k.name} ${kitLabel(k.tier)}`.toLowerCase().includes(search.toLowerCase()) &&
     (category === "All" || k.type === category) && matchesStock(k.stock, stock),
   );
   const visibleOrders = orders.filter((o) =>
@@ -372,7 +373,7 @@ export default function Admin() {
                     onChange={(e) => field("tier", e.target.value)}
                   >
                     {tiers.map((t) => (
-                      <option key={t}>{t}</option>
+                      <option key={t} value={t}>{kitLabel(t)}</option>
                     ))}
                   </select>
                 </label>
@@ -572,7 +573,7 @@ export default function Admin() {
                         {k.name}
                         <br />
                         <small className="muted">
-                          {k.tier} ·{" "}
+                          {kitLabel(k.tier)} ·{" "}
                           {k.items.reduce((s, i) => s + i.quantity, 0)} items
                         </small>
                       </td>
@@ -582,7 +583,7 @@ export default function Admin() {
                       <td>
                         <button
                           className="icon-button"
-                          aria-label={`Edit ${k.name} ${k.tier}`}
+                          aria-label={`Edit ${k.name} ${kitLabel(k.tier)}`}
                           onClick={() => {
                             setEditing({
                               kind: "kit",

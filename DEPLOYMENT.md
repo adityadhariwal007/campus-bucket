@@ -6,13 +6,13 @@ Verified 15 October 2026.
 - Also live: https://www.campusbucket.live
 - Hosting: Cloudflare Workers with OpenNext
 - Worker: `campus-bucket`
-- Deployed version: `31cc181a-8ca8-4142-bb48-46c4a3ead6c3`
+- Deployed version: `ceb5fac0-4360-471f-a0d0-74fc66116c13`
 - Routes: `campusbucket.live/*` and `www.campusbucket.live/*`
 - Next.js 16.3.8; OpenNext Cloudflare 1.20.11; Wrangler 4.150.0
 - Existing proxied DNS records and email routing are preserved. No paid plan or Images service was enabled.
 - Live Supabase project: `zbdezzafnqwmqmdxdmmo`. The build includes its public URL and publishable key; no service-role credential is shipped.
 - Six tables have RLS. The catalog contains 30 products, 10 kits and 66 kit-item rows. The order-limits migration is applied.
-- Cloudflare `SITE_LIMITER`: 300 Worker requests/IP/minute; signup/recovery gateway: 5 attempts/IP/minute. Database order quota: 10/hour and 50/day/account.
+- Cloudflare `SITE_LIMITER`: 300 Worker requests/IP/minute; signup/recovery gateway: approximately 5 attempts/IP/minute per location (brief bursts can pass). Database order quota: 10/hour and 50/day/account.
 
 ## Redeploy
 
@@ -53,3 +53,7 @@ Latest release includes the admin dashboard, automatic verified-admin routing, h
 ## Launch and mobile release · 15 October 2026
 
 Live version above includes policy pages, social metadata/card, icons, custom 404, signup/recovery abuse controls, existing analytics verification and mobile refinements. Phone kit browsing uses native horizontal scrolling; scroll-driven translations are progressive enhancements and respect reduced motion. No photos or dependencies added for the mobile work. Live checks pass for 22 routes and 39 internal links. Type checking, 16 unit checks, database checks and production build pass. Legal copy and real email/auth delivery still need owner review; no online payment has been enabled.
+
+## Shop names and search release · 15 October 2026
+
+Essential / Plus / Premium display names preserve stored keys and existing kit links. Header heart removed; search opens a phone-friendly native dialog with kit-contents and individual-item matching. Story policy sections removed; standalone policy links retained. Responsive campus WebP variants and uncropped product frames included. Security findings and scoped live checks are in SECURITY-REVIEW.md. No database records or schema changed for this release.

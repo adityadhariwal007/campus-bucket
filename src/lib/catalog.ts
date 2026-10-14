@@ -1,10 +1,15 @@
 import type { Catalog, Category, Kit, KitItem, Product, Tier } from "./types";
 export const categories: Category[] = ["Hostel", "Student", "Sports"];
 export const tiers: Tier[] = ["Fresher", "Scholar", "Topper"];
+// Keep stored tier keys and old kit URLs stable for saved carts and orders.
+export const tierNames: Record<Tier, string> = { Fresher: "Essential", Scholar: "Plus", Topper: "Premium" };
+export function kitLabel(text: string) {
+  return text.replace(/\b(Fresher|Scholar|Topper)\b/g, (tier) => tierNames[tier as Tier]);
+}
 export const tierCopy = {
   Fresher: "The everyday essentials.",
-  Scholar: "A little more, a lot sorted.",
-  Topper: "Your best campus life.",
+  Scholar: "Everyday essentials, with useful extras.",
+  Topper: "The complete setup, with premium additions.",
 };
 const rows: [string, string, number, Category, Product["size_type"]][] = [
   ["bucket", "Everyday bucket", 199, "Hostel", null],
@@ -187,13 +192,13 @@ export function mergeItems(items: KitItem[]): KitItem[] {
 for (const kit of kits) kit.items = mergeItems(kit.items);
 kits.push({
   id: "ultimate-fresher",
-  name: "Ultimate Fresher Bundle",
+  name: "Ultimate Essential Bundle",
   type: "Bundle",
   tier: "Fresher",
   price: 1149,
   stock: 30,
   description:
-    "All three Fresher kits. One happy move-in day. Save ₹198 versus buying them separately.",
+    "All three Essential kits. One happy move-in day. Save ₹198 versus buying them separately.",
   items: mergeItems(
     kits.filter((k) => k.tier === "Fresher").flatMap((k) => k.items),
   ),

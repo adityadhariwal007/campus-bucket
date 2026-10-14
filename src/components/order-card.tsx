@@ -1,6 +1,6 @@
 "use client";
 import { IconCheck, IconPackage } from "@tabler/icons-react";
-import { money } from "@/lib/catalog";
+import { money, kitLabel } from "@/lib/catalog";
 import { statuses, type Order } from "@/lib/types";
 export function OrderCard({
   order,
@@ -53,7 +53,7 @@ export function OrderCard({
           {order.items.map((i, index) => (
             <div className="row between" key={index}>
               <span>
-                {i.quantity} × {i.name}
+                {i.quantity} × {kitLabel(i.name)}
                 <small className="muted">
                   {" "}
                   {Object.entries(i.sizes)

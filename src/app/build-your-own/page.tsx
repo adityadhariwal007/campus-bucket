@@ -1,4 +1,5 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { IconPlus, IconCheck, IconArrowRight } from "@tabler/icons-react";
@@ -57,9 +58,14 @@ function Item({ p }: { p: Product }) {
   );
 }
 export default function Build() {
+  const params = useSearchParams();
+  const initialSearch = (params.get("q") || "").slice(0, 100);
+  return <BuildContent key={initialSearch} initialSearch={initialSearch} />;
+}
+function BuildContent({ initialSearch }: { initialSearch: string }) {
   const { catalog, cart, ready } = useStore();
-  const [category, setCategory] = useState("Hostel"),
-    [search, setSearch] = useState("");
+  const [category, setCategory] = useState(initialSearch ? "All" : "Hostel"),
+    [search, setSearch] = useState(initialSearch);
   const step = categories.indexOf(category as (typeof categories)[number]);
   const amount = totals(cart, catalog);
   const products = catalog.products.filter(

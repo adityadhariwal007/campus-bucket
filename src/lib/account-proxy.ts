@@ -6,6 +6,7 @@ export async function proxyAccountRequest(request: Request, limiter: RateLimit, 
   const fail = (msg: string, status: number) => Response.json({ msg }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "60" } : {}) } });
   if (request.method !== "POST" || !["signup", "recover"].includes(action || "")) return fail("Not found", 404);
   if (request.headers.get("origin") !== url.origin || request.headers.get("sec-fetch-site") === "cross-site") return fail("Forbidden origin", 403);
+  // Cloudflare counters are approximate per location; Supabase also enforces Auth limits.
   if (!(await limiter.limit({ key: request.headers.get("cf-connecting-ip") || "local-preview" })).success) return fail("Too many attempts. Wait one minute and try again.", 429);
   if (Number(request.headers.get("content-length") || 0) > 16384) return fail("Request too large", 413);
   const reader = request.body?.getReader();

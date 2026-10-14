@@ -1,4 +1,5 @@
 "use client";
+import { kitLabel } from "@/lib/catalog";
 import Link from "next/link";
 import { useState } from "react";
 import { IconArrowUpRight } from "@tabler/icons-react";
@@ -30,7 +31,7 @@ function FeaturedKit({
         </span>
         <span>{kit.items.reduce((s, i) => s + i.quantity, 0)} essentials</span>
       </div>
-      <Link href={`/kits/${kit.id}`} aria-label={`View ${kit.name} ${tier}`}>
+      <Link href={`/kits/${kit.id}`} aria-label={`View ${kit.name} ${kitLabel(tier)}`}>
         <KitVisual kit={kit} />
       </Link>
       <div className="row between kit-title">
@@ -40,7 +41,7 @@ function FeaturedKit({
       <div className="tier-tabs" aria-label={`${category} tier`}>
         {tiers.map((t) => (
           <button key={t} aria-pressed={t === tier} onClick={() => setTier(t)}>
-            {t}
+            {kitLabel(t)}
           </button>
         ))}
       </div>
@@ -146,7 +147,7 @@ export default function Home() {
             ))}
           </div>
           <div className="unpack-end">
-            <span>HOSTEL KIT / SCHOLAR</span>
+            <span>HOSTEL KIT / PLUS</span>
             <strong>
               {money(
                 catalog.kits.find((k) => k.id === "hostel-scholar")?.price ||
@@ -202,7 +203,7 @@ export default function Home() {
         <section className="editorial-bundle dark-section">
           <div className="container bundle-layout">
             <div>
-              <span className="eyebrow">THE ULTIMATE FRESHER BUNDLE</span>
+              <span className="eyebrow">THE ULTIMATE ESSENTIAL BUNDLE</span>
               <h2>
                 New room.
                 <br />
@@ -210,7 +211,7 @@ export default function Home() {
                 <br />
                 <em>One bucket.</em>
               </h2>
-              <p>All three Fresher kits. One less list to make.</p>
+              <p>All three Essential kits. One less list to make.</p>
               <div className="bundle-price">
                 <strong>{money(bundle.price)}</strong>
                 <s>{money(separate)}</s>
@@ -226,7 +227,7 @@ export default function Home() {
               {["Hostel", "Student", "Sports"].map((type, i) => (
                 <div className={`bundle-stack-card stack-${i}`} key={type}>
                   <Photo photo={media.kits[type]} />
-                  <span>{type} / Fresher</span>
+                  <span>{type} / Essential</span>
                 </div>
               ))}
             </div>

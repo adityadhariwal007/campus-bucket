@@ -199,6 +199,14 @@ To redeploy after an edit, run `npm run typecheck`, `npm test`, `npm run test:db
 - `/social-preview`: view the card used when sharing the website. Browser and Apple icons are in `src/app`; the social card is `public/social-preview.png`.
 - `src/lib/metadata.ts` and route layouts control page titles, descriptions, canonical URLs and social metadata. `sitemap.xml` reads current public kit IDs; private account/order pages use noindex.
 - Cloudflare Web Analytics is already enabled for campusbucket.live. View it in Cloudflare → Analytics → Web analytics. No analytics key is required in `.env.local`.
-- In production, signup and password recovery go through `/api/account/signup` and `/api/account/recover`. Cloudflare applies `ACCOUNT_LIMITER` (5 attempts/IP/minute). Local Next development uses Supabase directly; use the Cloudflare preview to test the gateway. Limits and a honeypot provide basic spam controls; they do not replace a CAPTCHA for sustained abuse.
+- In production, signup and password recovery go through `/api/account/signup` and `/api/account/recover`. Cloudflare applies `ACCOUNT_LIMITER` (configured for approximately 5 attempts/IP/minute per location; short bursts can pass). Local Next development uses Supabase directly; use the Cloudflare preview to test the gateway. Limits and a honeypot provide basic spam controls; they do not replace a CAPTCHA for sustained abuse.
 - The served campus image is `public/campus.webp`; `public/campus.png` is the retained original. Update `src/lib/media.ts` when replacing it.
 - See VERIFICATION.md for the live link checks and the mobile PageSpeed report.
+
+## Shop levels and search
+
+Customer-facing levels are Essential, Plus and Premium. Stored tier keys and kit URLs are intentionally unchanged to preserve old carts, orders and links. The shared kitLabel helper translates display text, including historical order names and metadata. Update the display mapping rather than rewriting existing IDs.
+
+The header search opens an accessible dialog and matches kit contents, level names, categories and individual products. Individual results open Build your own with a bounded q parameter. Native dialog focus and Escape behavior work on phones. The campus photograph has 480px and 960px WebP sources; product frames use contain to avoid cutting off inventory.
+
+Security test scope and remaining findings: see SECURITY-REVIEW.md.

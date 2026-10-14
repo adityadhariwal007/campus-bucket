@@ -40,7 +40,7 @@ export const media = {
       1000,
       1200,
     ),
-    Bundle: slot("All three Fresher kits arranged together", 1400, 1000),
+    Bundle: slot("All three Essential kits arranged together", 1400, 1000),
   } as Record<string, Photo>,
   alternate: {
     Hostel: slot("Hostel essentials unpacked in a student room", 1000, 1200),

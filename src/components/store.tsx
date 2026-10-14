@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { seedCatalog } from "@/lib/catalog";
+import { seedCatalog, kitLabel } from "@/lib/catalog";
 import { configured, supabase } from "@/lib/supabase";
 import {
   contents,
@@ -84,7 +84,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     ]);
     if (p.error || k.error)
       throw new Error(p.error?.message || k.error?.message);
-    setCatalog({ products: p.data!, kits: k.data! });
+    setCatalog({ products: p.data!, kits: k.data!.map(kit => ({ ...kit, name: kitLabel(kit.name), description: kitLabel(kit.description) })) });
   }
   useEffect(() => {
     let active = true;

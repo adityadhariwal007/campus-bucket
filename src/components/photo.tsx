@@ -20,6 +20,7 @@ export function Photo({
     >
       {photo.src && !failed ? (
         <picture>
+          {photo.src === "/campus.webp" && <source type="image/webp" srcSet="/campus-480.webp 480w, /campus-960.webp 960w, /campus.webp 1600w" sizes={sizes} />}
           {optimized && (
             <source
               type="image/avif"

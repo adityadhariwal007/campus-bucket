@@ -1,4 +1,5 @@
 "use client";
+import { kitLabel } from "@/lib/catalog";
 import Link from "next/link";
 import { useState } from "react";
 import { IconTrash, IconArrowRight } from "@tabler/icons-react";
@@ -58,7 +59,7 @@ export default function Cart() {
                 </Link>
                 <div className="cart-description">
                   <span className="small muted">
-                    {l.kind === "kit" ? (e as Kit)?.tier : "Your own kit"}
+                    {l.kind === "kit" ? kitLabel((e as Kit)?.tier || "") : "Your own kit"}
                   </span>
                   <h3>{e?.name || "Unavailable item"}</h3>
                   <p className="small muted">

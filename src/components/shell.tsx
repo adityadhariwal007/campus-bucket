@@ -4,7 +4,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   IconSearch,
-  IconHeart,
   IconBucket,
   IconShoppingBag,
   IconUser,
@@ -12,6 +11,7 @@ import {
   IconX,
   IconArrowUpRight,
 } from "@tabler/icons-react";
+import { SearchDialog } from "./search-dialog";
 import { CartDrawer } from "./cart-drawer";
 import { useStore } from "./store";
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -28,6 +28,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     finally { setLoggingOut(false); }
   }
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [bucketOpen, setBucketOpen] = useState(false);
   const count = cart.reduce((s, l) => s + l.quantity, 0);
   const links = [
@@ -70,7 +71,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
           <div className="nav-actions">
-            <Link href="/kits#search" className="icon-button" aria-label="Search kits" title="Search"><IconSearch size={21} /></Link>
+            <button type="button" className="icon-button" aria-label="Search kits and items" aria-haspopup="dialog" onClick={() => setSearchOpen(true)}><IconSearch size={21} /></button>
             <Link
               href="/login"
               className="icon-button account-link"
@@ -78,7 +79,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
             >
               <IconUser size={22} />
             </Link>
-            <Link href="/kits" className="icon-button" aria-label="Find your favourite kit" title="Find your favourite kit"><IconHeart size={21} /></Link>
             <button
               onClick={() => setBucketOpen(true)}
               className="cart-link"
@@ -123,6 +123,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
       )}
       <main id="main">{children}</main>
+      {searchOpen && <SearchDialog close={() => setSearchOpen(false)} />}
       <CartDrawer open={bucketOpen} close={() => setBucketOpen(false)} />
       <footer className="footer">
         <div className="container newsletter">
@@ -164,7 +165,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <div>
             <h3>The small print</h3>
-            <Link href="/about#delivery">Delivery & returns</Link>
+            <Link href="/terms#delivery">Delivery & returns</Link>
             <Link href="/privacy">Privacy policy</Link>
             <Link href="/terms">Terms & conditions</Link>
           </div>

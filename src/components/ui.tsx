@@ -1,4 +1,5 @@
 "use client";
+import { kitLabel } from "@/lib/catalog";
 import Link from "next/link";
 import { Photo } from "./photo";
 import { media, productPhoto } from "@/lib/media";
@@ -22,7 +23,7 @@ export function ProductImage({
   );
 }
 export function Badge({ tier }: { tier: Tier }) {
-  return <span className={`badge ${tier.toLowerCase()}`}>{tier}</span>;
+  return <span className={`badge ${tier.toLowerCase()}`}>{kitLabel(tier)}</span>;
 }
 export function KitVisual({
   kit,
@@ -49,7 +50,7 @@ export function KitCard({ kit }: { kit: Kit }) {
     <article className="kit-card">
       <Link
         href={`/kits/${kit.id}`}
-        aria-label={`View ${kit.name} ${kit.tier}`}
+        aria-label={`View ${kit.name} ${kitLabel(kit.tier)}`}
       >
         <KitVisual kit={kit} />
       </Link>
@@ -70,7 +71,7 @@ export function KitCard({ kit }: { kit: Kit }) {
           <Link
             className="circle-link"
             href={`/kits/${kit.id}`}
-            aria-label={`Shop ${kit.name} ${kit.tier}`}
+            aria-label={`Shop ${kit.name} ${kitLabel(kit.tier)}`}
           >
             <IconArrowUpRight size={22} />
           </Link>

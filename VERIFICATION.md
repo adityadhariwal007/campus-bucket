@@ -77,3 +77,13 @@ Limits: legal wording has not been reviewed by a lawyer. No real password-reset 
 Phone browser checks at 320px and 390px: no document horizontal overflow; 320px navigation remains 80px high on one row; headline fits on two lines. Mobile menu opens/closes. Kit rail accepts keyboard horizontal scrolling and exposes a focusable named region. Native scroll-timeline support confirmed; unpack translation moves from 28px to 0 as content passes through the viewport. Ribbon starts hidden and reveals after scrolling. No photos or motion dependencies added. Native reduced-motion media query excludes the new animations; actual device/Safari testing and authenticated mobile logout were not performed.
 
 Final Worker version: `31cc181a-8ca8-4142-bb48-46c4a3ead6c3`. Live 22-route/39-link audit passes. At 320px, login, kit detail, build-your-own, cart, checkout, about, privacy and terms have no horizontal document overflow. Production screenshots: `output/campus-bucket-mobile-live.png` and `output/campus-bucket-mobile-unpack-live.png`.
+
+## Levels, search and security review · 15 October 2026
+
+Essential / Plus / Premium labels applied across public pages, admin controls, metadata, cart and historical order names. Stable tier keys and URLs retained. Removed heart navigation; header search opens a native modal, handles literal multiword queries and kit contents, and links individual matches to a filtered builder. Verified repeated product navigation, HTML-like search input (no injected elements), Escape and focus restoration. At 320px the dialog and page have no horizontal overflow. Our Story policy sections removed; footer links now point to standalone policies and terms#delivery.
+
+Campus photo uses 480px (about 15KB), 960px (about 50KB) and 1600px sources; 390px browser selected the 480px source. Product/kit photographs use contain to preserve the whole item. No new photos added.
+
+Eighteen unit checks, disposable-database authorization checks, production build and sixteen live security probes passed. npm audit: zero known advisories. Six live tables have RLS. Historical secret-pattern scan: 133 blobs, zero matches. Security advisor warning and rate-limit consistency limitation are documented in SECURITY-REVIEW.md. The initial strict burst-limit assertion failed; it was replaced with a bounded sustained check matching the documented platform behavior, not treated as a hard global five-request guarantee.
+
+Final release `ceb5fac0-4360-471f-a0d0-74fc66116c13`: live audit passed 22 pages and 38 internal links; homepage visible text has no old level names; individual search result opens the correct filtered builder. Proof: output/campus-bucket-search-mobile-live.png.

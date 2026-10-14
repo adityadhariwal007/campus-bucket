@@ -2,8 +2,8 @@
 import { useId, useState } from "react";
 export const questions = [
   [
-    "Fresher, Scholar, Topper. What's the difference?",
-    "Fresher covers the basics. Scholar adds everyday comforts. Topper gives you the fuller setup. Every kit page lists the exact items and quantities in each tier.",
+    "Essential, Plus, Premium. What's the difference?",
+    "Essential covers the basics. Plus adds everyday comforts. Premium gives you the fuller setup. Every kit page lists the exact items and quantities in each tier.",
   ],
   [
     "Can I leave out the things I already own?",

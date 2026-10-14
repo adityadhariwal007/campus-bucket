@@ -125,7 +125,13 @@ await assert.rejects(
   /Administrator/,
 );
 await assert.rejects(() => db.exec("update orders set total=1"), /permission/);
+// User-editable metadata must never grant store administrator permissions.
+await db.exec("reset role");
+await db.query("update auth.users set raw_user_meta_data=$1::jsonb where id=$2", [JSON.stringify({admin:true,role:"admin"}), other]);
 await asUser(other);
+assert.equal((await db.query<{admin:boolean}>("select private.is_admin() admin")).rows[0].admin, false);
+await assert.rejects(() => db.query("select public.save_kit($1)", [JSON.stringify({})]), /Administrator/);
+await assert.rejects(() => db.query("update users set id=$1 where id=$2", ["55555555-5555-4555-8555-555555555555",other]), /row-level security/);
 assert.equal((await db.query("select * from orders")).rows.length, 0);
 assert.equal((await db.query("select * from users")).rows.length, 1);
 await db.exec("reset role");

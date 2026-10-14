@@ -31,8 +31,8 @@ export default function About() {
             into kits that fit your budget.
           </p>
           <p>
-            Choose Fresher for the basics, Scholar for a few thoughtful extras,
-            or Topper for the whole setup. Already have half your checklist?
+            Choose Essential for the basics, Plus for a few thoughtful extras,
+            or Premium for the whole setup. Already have half your checklist?
             Build your own.
           </p>
           <Link href="/kits" className="button primary">
@@ -68,7 +68,7 @@ export default function About() {
           ],
           [
             "How does pricing work?",
-            "Prices are in Indian rupees. Use CAMPUS10 for 10% off. The Ultimate Bundle combines all three Fresher kits.",
+            "Prices are in Indian rupees. Use CAMPUS10 for 10% off. The Ultimate Bundle combines all three Essential kits.",
           ],
           [
             "Can I pay using UPI or a card?",
@@ -101,17 +101,6 @@ export default function About() {
             Include your order number when asking about an order.
           </p>
         </div>
-      </section>
-      <section id="delivery" className="section legal">
-        <h2>Delivery & returns</h2>
-        <p>Choose free campus pickup or ₹49 hostel delivery, waived for totals of ₹1,499 or more after discount. Contact the store to confirm your campus, delivery timing, and pickup location before placing an order.</p>
-        <p>For cancellation or return questions, email team@campusbucket.live with your order number. Please confirm the applicable terms with the store team.</p>
-      </section>
-      <section id="privacy" className="section legal">
-        <h2>Privacy</h2>
-        <p>Read our full <Link href="/privacy">privacy policy</Link> and <Link href="/terms">terms & conditions</Link>.</p>
-        <p>Your bucket is saved in your browser. Account and order details are stored securely with Supabase. Customers can access their own orders; authorized store administrators manage the catalog and orders.</p>
-        <p>No card details or UPI PINs are collected. Contact team@campusbucket.live for questions about your data or to request its deletion.</p>
       </section>
     </div>
   );

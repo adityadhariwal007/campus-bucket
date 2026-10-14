@@ -1,4 +1,5 @@
 "use client";
+import { kitLabel } from "@/lib/catalog";
 import { use, useState } from "react";
 import Link from "next/link";
 import {
@@ -72,7 +73,7 @@ function DetailContent({ id }: { id: string }) {
         <span>/</span>
         {kit.name}
         <span>/</span>
-        {kit.tier}
+        {kitLabel(kit.tier)}
       </div>
       <div className="detail-grid">
         <div>
@@ -103,7 +104,7 @@ function DetailContent({ id }: { id: string }) {
                   href={`/kits/${k.id}`}
                   className={k.id === id ? "selected" : ""}
                 >
-                  <strong>{k.tier}</strong>
+                  <strong>{kitLabel(k.tier)}</strong>
                   <span>{money(k.price)}</span>
                 </Link>
               ))}
@@ -237,7 +238,7 @@ function DetailContent({ id }: { id: string }) {
                   ))}
                 </ul>
                 <Link href={`/kits/${k.id}`} className="button secondary">
-                  {k.id === id ? "Currently viewing" : `Choose ${k.tier}`}
+                  {k.id === id ? "Currently viewing" : `Choose ${kitLabel(k.tier)}`}
                 </Link>
               </article>
             ))}
@@ -247,7 +248,7 @@ function DetailContent({ id }: { id: string }) {
       <div className="detail-add-bar">
         <div>
           <strong>
-            {kit.name} / {kit.tier}
+            {kit.name} / {kitLabel(kit.tier)}
           </strong>
           <span>
             {money(kit.price)} × {quantity}
