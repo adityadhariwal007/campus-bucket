@@ -75,3 +75,7 @@ Published Worker version: `8575a36c-2d3d-49f9-839a-5015e10ed417`. All 22 bounded
 Published Cloudflare version `c23471d0-73e9-4cfa-892c-9c5d670ca7e6`. Custom six-expression artwork was exported from the user-selected Bible Strong Avatar Lab at its pinned revision. The website uses local SVG assets and original interaction code; no third-party avatar runtime or new dependency is installed. Licence/provenance and reproduction details are in `assets/avatar/README.md`.
 
 23 unit checks, type checking and the Cloudflare production build pass. Live mobile greeting and matching happy artwork render at 390 × 700 with no captured console errors or horizontal overflow. Screenshot: `output/buck-live-mobile.png`. The full expression sheet is `output/buck-reactions.png`, also published as `/avatar/buck-reactions.svg`. Existing payment/email configuration and database records were not changed.
+
+## Buck dismissal removed · 15 October 2026
+
+Published Cloudflare version `9e67244f-931f-404f-a590-b6bbfd7424cb`. Removed the visitor hide control and its state/styles; the retired session preference is cleared on mount. Privacy and current avatar documentation now match. Type checking, all 23 unit checks and the Cloudflare build pass. Live browser verification restored Buck in a tab that had hidden him before deployment; the 390 × 700 greeting contains no hide button. Proof: `output/buck-no-hide-live.png`.

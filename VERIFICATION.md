@@ -110,3 +110,7 @@ Limits: authenticated multi-user access rules were exercised in disposable Postg
 - Reaction proof: `output/buck-reactions.png`. Physical-device testing and an OS-level reduced-motion preference were not exercised; reduced-motion CSS was reviewed.
 
 Buck live confirmation: `c23471d0-73e9-4cfa-892c-9c5d670ca7e6` renders the mobile greeting and olive happy face without captured console warnings/errors. Width remains 390px at the 390px viewport. The local cart item used for checking the celebration was removed afterward; no order was submitted. Live asset checks cover all seven SVG files and confirm the offline authoring script stays private.
+
+## Buck dismissal removal · 15 October 2026
+
+Supersedes the earlier optional-hide behavior: the hide button and dismissal state are removed, and the old session key is cleared. Type checking, 23 unit checks and production build pass. On the live deployment, a previously dismissed Buck returned after reload. At 390 × 700 the greeting opens with no hide control; closing the greeting still leaves Buck available. Form/dialog and mobile-control avoidance remain in place. Physical devices were not tested. Screenshot: `output/buck-no-hide-live.png`.

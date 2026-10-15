@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { IconX } from "@tabler/icons-react";
 import { buckReaction, hideCompanionOn } from "@/lib/companion";
 export function CampusCompanion({
   path,
@@ -14,14 +13,14 @@ export function CampusCompanion({
   hasError: boolean;
 }) {
   const [mounted, setMounted] = useState(false),
-    [hidden, setHidden] = useState(false),
     [open, setOpen] = useState(false),
     [added, setAdded] = useState(false),
     [blocking, setBlocking] = useState(false);
   const previous = useRef<number | null>(null);
   useEffect(() => {
     try {
-      setHidden(sessionStorage.getItem("cb-buck-hidden") === "1");
+      // Clear the retired dismissal preference for returning visitors.
+      sessionStorage.removeItem("cb-buck-hidden");
     } catch {
       /* Browser storage is optional. */
     }
@@ -40,7 +39,7 @@ export function CampusCompanion({
     setOpen(false);
   }, [path]);
   useEffect(() => {
-    if (hidden || hideCompanionOn(path)) return;
+    if (hideCompanionOn(path)) return;
     const narrow = window.matchMedia("(max-width: 767px)");
     if (!("IntersectionObserver" in window)) {
       setBlocking(narrow.matches);
@@ -82,8 +81,8 @@ export function CampusCompanion({
       changes.disconnect();
       window.removeEventListener("resize", watch);
     };
-  }, [path, ready, hidden]);
-  if (!mounted || hidden || hideCompanionOn(path)) return null;
+  }, [path, ready]);
+  if (!mounted || hideCompanionOn(path)) return null;
   const reaction = buckReaction(path, ready, hasError, added, open);
   return (
     <aside
@@ -101,20 +100,6 @@ export function CampusCompanion({
         <div className="buck-note" id="buck-note">
           <strong>Hey, I’m Buck.</strong>
           <p role="status">{reaction.message}</p>
-          <button
-            className="buck-hide"
-            onClick={() => {
-              setHidden(true);
-              try {
-                sessionStorage.setItem("cb-buck-hidden", "1");
-              } catch {
-                /* Hide still works for this page. */
-              }
-            }}
-          >
-            <IconX size={14} aria-hidden="true" />
-            Hide for this visit
-          </button>
         </div>
       )}
       <button

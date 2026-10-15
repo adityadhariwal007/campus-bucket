@@ -4785,20 +4785,6 @@ textarea:focus {
   margin: 8px 0 10px;
   color: #514a40;
 }
-.buck-hide {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  min-height: 44px;
-  padding: 4px 0;
-  background: transparent;
-  border: 0;
-  font: inherit;
-  font-size: 12px;
-  text-decoration: underline;
-  color: #514a40;
-  cursor: pointer;
-}
 body:has(dialog[open]) .campus-companion,
 body:has(input:focus, textarea:focus, select:focus) .campus-companion {
   display: none;
