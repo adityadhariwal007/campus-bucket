@@ -1,6 +1,6 @@
 import type { RateLimit } from "./edge-security";
 const upstreamOrigin = "https://zbdezzafnqwmqmdxdmmo.supabase.co";
-export async function proxyAccountRequest(request: Request, limiter: RateLimit, send: typeof fetch = fetch) {
+export async function proxyAccountRequest(request: Request, limiter: RateLimit, send: typeof fetch = (input, init) => globalThis.fetch(input, init)) {
   const url = new URL(request.url);
   const action = url.pathname.split("/").pop();
   const fail = (msg: string, status: number) => Response.json({ msg }, { status, headers: { "Cache-Control": "no-store", ...(status === 429 ? { "Retry-After": "60" } : {}) } });
@@ -44,7 +44,8 @@ export async function proxyAccountRequest(request: Request, limiter: RateLimit, 
     const value = request.headers.get(key); if (value) headers.set(key, value);
   }
   try {
-    const result = await send(target.href, { method: "POST", headers, body, redirect: "error", signal: AbortSignal.timeout(15000) });
+    const result = await send(target.href, { method: "POST", headers, body, redirect: "manual", signal: AbortSignal.timeout(15000) });
+    if (result.status >= 300 && result.status < 400) return fail("Account service unavailable. Please try again shortly.", 503);
     const responseHeaders = new Headers({ "Content-Type": "application/json", "Cache-Control": "no-store" });
     const retry = result.headers.get("retry-after"); if (retry) responseHeaders.set("Retry-After", retry);
     return new Response(result.body, { status: result.status, headers: responseHeaders });

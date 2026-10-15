@@ -19,7 +19,6 @@
       "zone_name": "campusbucket.live",
     },
   ],
-  "ai": { "binding": "AI" },
   "ratelimits": [
     {
       "name": "BUCK_LIMITER",

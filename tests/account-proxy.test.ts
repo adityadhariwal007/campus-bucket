@@ -30,3 +30,15 @@ test("account proxy forwards PKCE fields to the fixed provider and keeps respons
   assert.equal(response.status, 200); assert.equal(response.headers.get("cache-control"), "no-store");
   assert.equal(response.headers.get("access-control-allow-origin"), null);
 });
+
+test("account proxy rejects upstream redirects without forwarding credentials", async () => {
+  let calls = 0;
+  const response = await proxyAccountRequest(request(), allow, async (_, init) => {
+    calls++;
+    assert.equal(init?.redirect, "manual");
+    return new Response(null, { status: 302, headers: { Location: "https://attacker.example" } });
+  });
+  assert.equal(response.status, 503);
+  assert.equal(response.headers.get("location"), null);
+  assert.equal(calls, 1);
+});

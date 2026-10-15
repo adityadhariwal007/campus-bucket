@@ -164,7 +164,7 @@ export function BuckChat({
       </form>
       <p className="buck-disclosure">
         AI suggestions can be wrong. Check product details. Chat is sent to
-        Cloudflare; don’t share personal details.{" "}
+        Google; don’t share personal details.{" "}
         <Link href="/privacy">Privacy</Link>
       </p>
       <nav className="buck-chat-links" aria-label="Shopping help">

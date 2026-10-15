@@ -157,28 +157,25 @@ export async function handleBuck(
           )
         ? "Natural Roman Hinglish, like a friendly senior: 'Hostel Kit Plus tumhare budget mein sahi rahega.' Do not answer in English only."
         : "Match the visitor's latest message language; English when they write English.";
-    const result = await deps.ai.run(
-      "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      {
-        messages: [
-          {
-            role: "system",
-            content:
-              instructions +
-              "\nSERVER CATALOG: " +
-              JSON.stringify(catalog) +
-              "\nCurrent page: " +
-              path +
-              "\nMandatory reply language: " +
-              language,
-          },
-          ...messages.map(({ role, content }) => ({ role, content })),
-        ],
-        max_tokens: 400,
-        temperature: 0.3,
-        response_format: { type: "json_object" },
-      },
-    );
+    const result = await deps.ai.run("gemini-3.6-flash", {
+      messages: [
+        {
+          role: "system",
+          content:
+            instructions +
+            "\nSERVER CATALOG: " +
+            JSON.stringify(catalog) +
+            "\nCurrent page: " +
+            path +
+            "\nMandatory reply language: " +
+            language,
+        },
+        ...messages.map(({ role, content }) => ({ role, content })),
+      ],
+      max_tokens: 400,
+      temperature: 0.3,
+      response_format: { type: "json_object" },
+    });
     const answer =
       typeof result.response === "string"
         ? JSON.parse(result.response)

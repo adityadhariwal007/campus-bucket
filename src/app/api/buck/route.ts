@@ -1,14 +1,20 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { createClient } from "@supabase/supabase-js";
-import { handleBuck, type BuckAI } from "@/lib/buck-chat";
+import { handleBuck } from "@/lib/buck-chat";
+import { geminiBuck } from "@/lib/gemini-buck";
 import type { RateLimit } from "@/lib/edge-security";
 import type { Catalog } from "@/lib/types";
 export async function POST(request: Request) {
   try {
     const { env } = await getCloudflareContext({ async: true });
-    const bindings = env as unknown as { AI?: BuckAI; BUCK_LIMITER: RateLimit };
+    const bindings = env as unknown as {
+      GEMINI_API_KEY?: string;
+      BUCK_LIMITER: RateLimit;
+    };
     return await handleBuck(request, {
-      ai: bindings.AI,
+      ai: bindings.GEMINI_API_KEY
+        ? geminiBuck(bindings.GEMINI_API_KEY)
+        : undefined,
       limiter: bindings.BUCK_LIMITER,
       catalog: async () => {
         const url = process.env.NEXT_PUBLIC_SUPABASE_URL,
