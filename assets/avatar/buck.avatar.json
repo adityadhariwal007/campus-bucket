@@ -1,0 +1,260 @@
+{
+  "schema": "bible-strong/avatar-definition",
+  "schemaVersion": 1,
+  "name": "Buck — Campus Bucket",
+  "body": {
+    "primary": {
+      "type": "cube",
+      "width": 206,
+      "height": 180,
+      "depth": 138,
+      "roundness": 0.58
+    },
+    "nodes": []
+  },
+  "colors": {
+    "body": "#c8beab",
+    "eyes": "#302d27"
+  },
+  "expressions": {
+    "neutral": {
+      "head": {
+        "x": 0,
+        "y": -7,
+        "z": 0
+      },
+      "eyes": {
+        "left": {
+          "width": 20,
+          "height": 37,
+          "x": 0,
+          "y": 0,
+          "angle": 0
+        },
+        "right": {
+          "width": 20,
+          "height": 37,
+          "x": 0,
+          "y": 0,
+          "angle": 0
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#c8beab",
+        "eyes": "#302d27"
+      }
+    },
+    "curious": {
+      "head": {
+        "x": 4,
+        "y": -13,
+        "z": -5
+      },
+      "eyes": {
+        "left": {
+          "width": 21,
+          "height": 42,
+          "x": 2,
+          "y": -4,
+          "angle": 0
+        },
+        "right": {
+          "width": 19,
+          "height": 34,
+          "x": 2,
+          "y": -4,
+          "angle": 0
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#c8beab",
+        "eyes": "#302d27"
+      }
+    },
+    "happy": {
+      "head": {
+        "x": 0,
+        "y": -5,
+        "z": 5
+      },
+      "eyes": {
+        "left": {
+          "width": 25,
+          "height": 13,
+          "x": 0,
+          "y": -8,
+          "angle": -10
+        },
+        "right": {
+          "width": 25,
+          "height": 13,
+          "x": 0,
+          "y": -8,
+          "angle": 10
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#b8c2a4",
+        "eyes": "#302d27"
+      }
+    },
+    "thoughtful": {
+      "head": {
+        "x": -4,
+        "y": 7,
+        "z": -4
+      },
+      "eyes": {
+        "left": {
+          "width": 22,
+          "height": 24,
+          "x": -2,
+          "y": 0,
+          "angle": 0
+        },
+        "right": {
+          "width": 20,
+          "height": 30,
+          "x": -2,
+          "y": 0,
+          "angle": 0
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#bcb4a6",
+        "eyes": "#302d27"
+      }
+    },
+    "gentle": {
+      "head": {
+        "x": 0,
+        "y": -4,
+        "z": -5
+      },
+      "eyes": {
+        "left": {
+          "width": 22,
+          "height": 26,
+          "x": 0,
+          "y": 0,
+          "angle": -8
+        },
+        "right": {
+          "width": 22,
+          "height": 26,
+          "x": 0,
+          "y": 0,
+          "angle": 8
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#c8afa4",
+        "eyes": "#302d27"
+      }
+    },
+    "blink": {
+      "head": {
+        "x": 0,
+        "y": -7,
+        "z": 0
+      },
+      "eyes": {
+        "left": {
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "angle": 0
+        },
+        "right": {
+          "width": 24,
+          "height": 3,
+          "x": 0,
+          "y": 0,
+          "angle": 0
+        },
+        "spacing": 44
+      },
+      "perspective": 1,
+      "motion": {
+        "eyes": "none",
+        "body": "none"
+      },
+      "colors": {
+        "body": "#c8beab",
+        "eyes": "#302d27"
+      }
+    }
+  },
+  "expressionOrder": [
+    "neutral",
+    "curious",
+    "happy",
+    "thoughtful",
+    "gentle",
+    "blink"
+  ],
+  "animations": {
+    "hello": {
+      "playbackMode": "once",
+      "steps": [
+        {
+          "expression": "curious",
+          "holdMs": 350,
+          "transitionMs": 200,
+          "transition": "smooth"
+        },
+        {
+          "expression": "happy",
+          "holdMs": 600,
+          "transitionMs": 220,
+          "transition": "smooth"
+        },
+        {
+          "expression": "neutral",
+          "holdMs": 500,
+          "transitionMs": 200,
+          "transition": "smooth"
+        }
+      ],
+      "blink": {
+        "enabled": false,
+        "initialDelayMs": 1000,
+        "minIntervalMs": 4000,
+        "maxIntervalMs": 6000,
+        "durationMs": 160
+      }
+    }
+  },
+  "animationOrder": ["hello"]
+}

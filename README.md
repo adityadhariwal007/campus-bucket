@@ -113,3 +113,9 @@ node --env-file=.env.local tests/marketplace-live.mjs
 ```
 
 Database migrations and Worker releases have separate rollback lifecycles. A Worker rollback does not undo database changes. Review the dated security/verification records before widening launch.
+
+## Buck, the campus companion
+
+Buck uses local SVG exports from the selected Bible Strong Avatar Lab repository, with a custom Campus Bucket definition. Neutral stone, charcoal eyes, olive celebration and muted clay reassurance match the existing site. Tap for a greeting or hide him for the visit. Mobile controls, dialogs and key form/chat routes take priority over the character.
+
+Edit or re-export using `assets/avatar/README.md`; source artwork is `assets/avatar/buck.avatar.json`. The offline authoring helper's AGPL licence is included separately; the upstream engine is not loaded by the website. A six-expression sheet is available at `/avatar/buck-reactions.svg`.

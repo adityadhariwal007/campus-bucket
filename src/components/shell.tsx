@@ -13,9 +13,10 @@ import {
 } from "@tabler/icons-react";
 import { SearchDialog } from "./search-dialog";
 import { CartDrawer } from "./cart-drawer";
+import { CampusCompanion } from "./campus-companion";
 import { useStore } from "./store";
 export function Shell({ children }: { children: React.ReactNode }) {
-  const { cart, error, account, signOut } = useStore();
+  const { cart, error, account, signOut, ready } = useStore();
   const path = usePathname();
   const router = useRouter();
   const [logoutError, setLogoutError] = useState("");
@@ -126,6 +127,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <main id="main">{children}</main>
       {searchOpen && <SearchDialog close={() => setSearchOpen(false)} />}
       <CartDrawer open={bucketOpen} close={() => setBucketOpen(false)} />
+      <CampusCompanion path={path} count={count} ready={ready} hasError={!!error} />
       <footer className="footer">
         <div className="container newsletter">
           <div>

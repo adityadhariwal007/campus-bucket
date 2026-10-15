@@ -100,3 +100,13 @@ Cloudflare version: `8575a36c-2d3d-49f9-839a-5015e10ed417`. Published to both cu
 - The 14 deployed private marketplace functions were compared to their tested source definitions after publishing the SQL. Marketplace migration records use UTC versions `20261014222201` and `20261014222202`.
 
 Limits: authenticated multi-user access rules were exercised in disposable PostgreSQL, not a real production student handover. No owner credentials were used to complete the new marketplace opt-in, no student listings were fabricated, and no actual marketplace email was sent. Brevo API setup and inbox delivery remain pending; SMTP confirmation email is a separate system. Physical-device photo upload, a fresh field performance score, and an independent penetration test were not performed. The earlier store PageSpeed result should not be presented as a new marketplace score.
+
+## Buck companion · 15 October 2026
+
+- Six original Campus Bucket expressions exported from Bible Strong Avatar Lab `79fe9ba06e4874b11394b8e8a3f2c493c9d197ba`. The exported SVGs total about 47 KB before compression; no avatar runtime or new project dependency is installed. Editable definition, authoring helper and licence/provenance notes are included.
+- TypeScript and all 23 unit checks pass. Checks cover truthful reaction precedence, protected/form-route exclusions and script-free local artwork. The production Cloudflare build passes.
+- Browser checks: warm neutral/olive artwork and greeting on desktop/390px phone layout; real cart addition produces the happy expression; restored cart remains neutral; mobile corner observer hides the avatar where a CTA would be covered; native search dialog hides it; Escape closes its greeting; hiding removes it across navigation/reload. No captured console warnings/errors in the tested flows.
+- All motion is finite and opt-in via `prefers-reduced-motion: no-preference`. Buck does not read form values, send data or claim to be a support chatbot. The session hide preference is disclosed in Privacy.
+- Reaction proof: `output/buck-reactions.png`. Physical-device testing and an OS-level reduced-motion preference were not exercised; reduced-motion CSS was reviewed.
+
+Buck live confirmation: `c23471d0-73e9-4cfa-892c-9c5d670ca7e6` renders the mobile greeting and olive happy face without captured console warnings/errors. Width remains 390px at the 390px viewport. The local cart item used for checking the celebration was removed afterward; no order was submitted. Live asset checks cover all seven SVG files and confirm the offline authoring script stays private.

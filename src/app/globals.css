@@ -4717,3 +4717,160 @@ textarea:focus {
     padding: 12px;
   }
 }
+
+/* Buck is exported artwork, not a third-party runtime or an AI chat service. */
+.campus-companion {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+.buck-button {
+  pointer-events: auto;
+  width: 78px;
+  height: 86px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  border-radius: 18px;
+}
+.buck-button:focus-visible {
+  outline: 2px solid #71695b;
+  outline-offset: 4px;
+}
+.buck-art {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 80%;
+}
+.buck-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.buck-art .buck-blink {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.buck-note {
+  pointer-events: auto;
+  width: min(270px, calc(100vw - 40px));
+  padding: 20px;
+  background: #f2eee5;
+  border: 1px solid #c6beaf;
+  box-shadow: 0 8px 24px #302d2712;
+  border-radius: 14px 14px 3px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.buck-note strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 19px;
+  letter-spacing: -0.025em;
+}
+.buck-note p {
+  margin: 8px 0 10px;
+  color: #514a40;
+}
+.buck-hide {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: underline;
+  color: #514a40;
+  cursor: pointer;
+}
+body:has(dialog[open]) .campus-companion,
+body:has(input:focus, textarea:focus, select:focus) .campus-companion {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .buck-art {
+    animation: buck-arrive 0.6s ease-out both;
+  }
+  .buck-happy .buck-art {
+    animation: buck-cheer 0.8s ease-out both;
+  }
+  .buck-art .buck-blink {
+    animation: buck-blink 1.8s linear both;
+  }
+  .buck-button:hover .buck-art {
+    transform: rotate(-5deg);
+  }
+  @keyframes buck-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes buck-cheer {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+    35% {
+      transform: translateY(-6px) rotate(-6deg);
+    }
+    70% {
+      transform: translateY(-2px) rotate(4deg);
+    }
+  }
+  @keyframes buck-blink {
+    0%,
+    64%,
+    75%,
+    100% {
+      opacity: 0;
+    }
+    66%,
+    73% {
+      opacity: 1;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .campus-companion {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  .buck-button {
+    width: 56px;
+    height: 64px;
+  }
+  .buck-note {
+    padding: 16px;
+    width: min(250px, calc(100vw - 32px));
+  }
+}
+@media print {
+  .campus-companion {
+    display: none;
+  }
+}
+
+.campus-companion[hidden] {
+  display: none;
+}

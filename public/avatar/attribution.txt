@@ -1,0 +1,7 @@
+Buck — Campus Bucket
+Original custom avatar definition, bucket handle, rim, palette and expression choices for Campus Bucket.
+SVG geometry exported using Bible Strong Avatar Lab by Stéphane Montlouis-Calixte:
+https://github.com/smontlouis/bible-strong-avatar-lab/tree/79fe9ba06e4874b11394b8e8a3f2c493c9d197ba
+The AGPL-3.0-only authoring renderer is not included in this website's runtime.
+Editable definition and offline reproduction helper:
+https://github.com/adityadhariwal007/campus-bucket/tree/main/assets/avatar

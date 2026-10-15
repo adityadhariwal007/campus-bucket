@@ -69,3 +69,9 @@ The private bucket, verified-member access, listing review, participant chat, me
 Posting-fee collection is disabled for the pilot at the owner's request; the intended ₹10 method remains undecided. No new payment or paid service was purchased. Existing customers' store data and orders remain in place. Worker rollback and database rollback remain separate.
 
 Published Worker version: `8575a36c-2d3d-49f9-839a-5015e10ed417`. All 22 bounded marketplace live checks pass. The deployment's Node child-process deprecation message comes from the installed deployment tooling; no user input is interpolated into deployment commands.
+
+## Buck campus companion · 15 October 2026
+
+Published Cloudflare version `c23471d0-73e9-4cfa-892c-9c5d670ca7e6`. Custom six-expression artwork was exported from the user-selected Bible Strong Avatar Lab at its pinned revision. The website uses local SVG assets and original interaction code; no third-party avatar runtime or new dependency is installed. Licence/provenance and reproduction details are in `assets/avatar/README.md`.
+
+23 unit checks, type checking and the Cloudflare production build pass. Live mobile greeting and matching happy artwork render at 390 × 700 with no captured console errors or horizontal overflow. Screenshot: `output/buck-live-mobile.png`. The full expression sheet is `output/buck-reactions.png`, also published as `/avatar/buck-reactions.svg`. Existing payment/email configuration and database records were not changed.
