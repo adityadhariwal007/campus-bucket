@@ -1,6 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { buckReaction, hideCompanionOn } from "@/lib/companion";
+import dynamic from "next/dynamic";
+import {
+  type BuckExpression,
+  buckReaction,
+  hideCompanionOn,
+} from "@/lib/companion";
+const BuckChat = dynamic(() =>
+  import("./buck-chat").then((module) => module.BuckChat),
+);
 export function CampusCompanion({
   path,
   count,
@@ -14,9 +22,15 @@ export function CampusCompanion({
 }) {
   const [mounted, setMounted] = useState(false),
     [open, setOpen] = useState(false),
+    [chatExpression, setChatExpression] = useState<BuckExpression>("happy"),
     [added, setAdded] = useState(false),
     [blocking, setBlocking] = useState(false);
   const previous = useRef<number | null>(null);
+  const toggle = useRef<HTMLButtonElement>(null);
+  function closeChat() {
+    setOpen(false);
+    toggle.current?.focus();
+  }
   useEffect(() => {
     try {
       // Clear the retired dismissal preference for returning visitors.
@@ -84,6 +98,8 @@ export function CampusCompanion({
   }, [path, ready]);
   if (!mounted || hideCompanionOn(path)) return null;
   const reaction = buckReaction(path, ready, hasError, added, open);
+  const expression =
+    open && !added && !hasError ? chatExpression : reaction.expression;
   return (
     <aside
       hidden={blocking && !open}
@@ -91,38 +107,40 @@ export function CampusCompanion({
       aria-label="Campus companion"
       onKeyDown={(event) => {
         if (event.key === "Escape") {
-          setOpen(false);
+          closeChat();
           event.stopPropagation();
         }
       }}
     >
       {open && (
-        <div className="buck-note" id="buck-note">
-          <strong>Hey, I’m Buck.</strong>
-          <p role="status">{reaction.message}</p>
-        </div>
+        <BuckChat
+          path={path}
+          onClose={closeChat}
+          onExpression={setChatExpression}
+        />
       )}
       <button
+        ref={toggle}
         type="button"
-        className={`buck-button buck-${reaction.expression}`}
+        className={`buck-button buck-${expression}`}
         aria-label={
           open
-            ? "Close Buck’s greeting"
+            ? "Close Buck’s chat"
             : "Say hello to Buck, your campus companion"
         }
         aria-expanded={open}
         aria-controls={open ? "buck-note" : undefined}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="buck-art" key={reaction.expression}>
+        <span className="buck-art" key={expression}>
           <img
-            src={`/avatar/buck-${reaction.expression}.svg`}
+            src={`/avatar/buck-${expression}.svg`}
             width={72}
             height={80}
             alt=""
             decoding="async"
           />
-          {reaction.expression === "neutral" && (
+          {expression === "neutral" && (
             <img
               className="buck-blink"
               src="/avatar/buck-blink.svg"

@@ -114,3 +114,11 @@ Buck live confirmation: `c23471d0-73e9-4cfa-892c-9c5d670ca7e6` renders the mobil
 ## Buck dismissal removal · 15 October 2026
 
 Supersedes the earlier optional-hide behavior: the hide button and dismissal state are removed, and the old session key is cleared. Type checking, 23 unit checks and production build pass. On the live deployment, a previously dismissed Buck returned after reload. At 390 × 700 the greeting opens with no hide control; closing the greeting still leaves Buck available. Form/dialog and mobile-control avoidance remain in place. Physical devices were not tested. Screenshot: `output/buck-no-hide-live.png`.
+
+## Buck shopping assistant · 15 October 2026
+
+- 28 unit checks pass, including bounded bodies/messages, role validation, stripping untrusted tool fields, same-origin checks, rate rejection, model failure, invented IDs, unsafe/numeric model output, real catalog prices/stock/links and language guidance. Type checking and production Cloudflare build pass. No dependency was added.
+- Workers AI preview: English and Hinglish needs, budget recommendations, purchase celebration with no product cards, refusal to invent a free laptop/order, basketball product link. These are bounded examples, not proof that every AI reply will be accurate.
+- Final live release `0582cfb6-efba-47eb-8729-740c8570b34b`: Hinglish hostel question with a INR1000 budget receives a Hinglish answer and the real INR999 Hostel Kit Plus card. Clicking the card opens `/kits/hostel-scholar`. At 390 × 700 the panel stays within the viewport (358px wide, left20px, top66.5px) and typing does not hide it. No captured browser warnings/errors. Screenshot: `output/buck-shopping-live-mobile.png`.
+- A cross-origin POST to the live endpoint returns 403. AI receives deliberately submitted recent messages/current path plus the public catalog; it gets no account, order or cart data and has no mutation tools. The browser renders plain text and server-owned links. Privacy is updated.
+- Physical phone keyboards, load testing, every supported language and exhaustive adversarial prompting were not tested. Model-written prose can still be wrong. Rate limits are approximate per Cloudflare location and do not cap total account charges; monitor Workers AI usage. No order was submitted or customer record changed during this verification.

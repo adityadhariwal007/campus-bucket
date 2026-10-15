@@ -79,3 +79,9 @@ Published Cloudflare version `c23471d0-73e9-4cfa-892c-9c5d670ca7e6`. Custom six-
 ## Buck dismissal removed · 15 October 2026
 
 Published Cloudflare version `9e67244f-931f-404f-a590-b6bbfd7424cb`. Removed the visitor hide control and its state/styles; the retired session preference is cleared on mount. Privacy and current avatar documentation now match. Type checking, all 23 unit checks and the Cloudflare build pass. Live browser verification restored Buck in a tab that had hidden him before deployment; the 390 × 700 greeting contains no hide button. Proof: `output/buck-no-hide-live.png`.
+
+## Buck shopping chat · 15 October 2026
+
+Published Cloudflare version `0582cfb6-efba-47eb-8729-740c8570b34b`. Added the approved Workers AI binding and a dedicated eight-request/minute client-IP limiter. Buck's lazy-loaded chat reads the live public Supabase catalog and provides server-generated product cards. No new packages, service-role credential, database migration or paid-plan upgrade was needed. Store/account/order mutations are outside Buck's capabilities. Monitor Workers AI usage/billing; IP limits do not impose a global spend ceiling. Roll back the Worker to `9e67244f-931f-404f-a590-b6bbfd7424cb` to restore the non-conversational companion if needed.
+
+28 unit checks, type checking and the Cloudflare production build pass. Preview tests cover English/Hinglish, self-reported purchase celebration without upsell, unavailable/invented products and instruction override attempts. Live cross-origin POST returns 403. The current privacy notice describes deliberate message transmission to Cloudflare and in-memory conversation lifetime. No chat transcripts are written to the application database.

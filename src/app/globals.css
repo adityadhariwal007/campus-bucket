@@ -4718,7 +4718,7 @@ textarea:focus {
   }
 }
 
-/* Buck is exported artwork, not a third-party runtime or an AI chat service. */
+/* Buck uses local artwork; conversational help loads only when opened. */
 .campus-companion {
   position: fixed;
   right: max(20px, env(safe-area-inset-right));
@@ -4764,29 +4764,8 @@ textarea:focus {
   inset: 0;
   opacity: 0;
 }
-.buck-note {
-  pointer-events: auto;
-  width: min(270px, calc(100vw - 40px));
-  padding: 20px;
-  background: #f2eee5;
-  border: 1px solid #c6beaf;
-  box-shadow: 0 8px 24px #302d2712;
-  border-radius: 14px 14px 3px 14px;
-  font-size: 14px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-.buck-note strong {
-  font-family: var(--font-display), sans-serif;
-  font-size: 19px;
-  letter-spacing: -0.025em;
-}
-.buck-note p {
-  margin: 8px 0 10px;
-  color: #514a40;
-}
 body:has(dialog[open]) .campus-companion,
-body:has(input:focus, textarea:focus, select:focus) .campus-companion {
+body:has(main input:focus, main textarea:focus, main select:focus) .campus-companion {
   display: none;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -4860,3 +4839,40 @@ body:has(input:focus, textarea:focus, select:focus) .campus-companion {
 .campus-companion[hidden] {
   display: none;
 }
+
+.buck-chat {
+  pointer-events: auto;
+  width: min(370px, calc(100vw - 32px));
+  max-height: calc(100dvh - 135px);
+  display: flex;
+  flex-direction: column;
+  background: #f2eee5;
+  border: 1px solid #c6beaf;
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 12px 40px #302d2720;
+  overflow: hidden;
+  color: #302d27;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.buck-chat-heading { display:flex; align-items:center; justify-content:space-between; padding:16px; border-bottom:1px solid #d8d0c2; }
+.buck-chat-heading strong { display:block; font-family:var(--font-display),sans-serif; font-size:21px; }
+.buck-chat-heading span { font-size:12px; color:#615a50; }
+.buck-chat-heading button,.buck-compose button { display:grid; place-items:center; min-width:44px; min-height:44px; border:0; background:transparent; color:inherit; cursor:pointer; }
+.buck-thread { min-height:0; max-height:300px; overflow-y:auto; overscroll-behavior:contain; padding:16px; }
+.buck-message { margin:0 0 14px; white-space:pre-wrap; overflow-wrap:anywhere; }
+.buck-message p { margin:0; }
+.buck-message-user { margin-left:28px; background:#e1dacc; padding:10px 12px; border-radius:12px 12px 3px 12px; }
+.buck-pick { display:block; white-space:normal; margin-top:10px; padding:10px; border:1px solid #c6beaf; border-radius:8px; text-decoration:none; }
+.buck-pick strong,.buck-pick span { display:block; }
+.buck-pick strong { font-size:13px; }
+.buck-pick > span { font-size:12px; margin-top:4px; color:#615a50; }
+.buck-thinking { color:#615a50; }
+.buck-chat-error { color:#852f24; }
+.buck-compose { display:flex; gap:8px; margin:0 12px; border:1px solid #b5aa97; border-radius:9px; background:#faf7f1; }
+.buck-compose input { width:100%; min-width:0; background:transparent; border:0; padding:12px; font:inherit; font-size:16px; }
+.buck-compose button { background:#3d3a33; color:#f2eee5; border-radius:7px; margin:3px; }
+.buck-compose button:disabled { opacity:.45; cursor:default; }
+.buck-disclosure { font-size:10px; line-height:1.4; color:#615a50; margin:10px 16px; }
+.buck-chat-links { display:flex; flex-wrap:wrap; gap:14px; padding:0 16px 14px; font-size:12px; }
+@media(max-height:600px) { .buck-chat { max-height:calc(100dvh - 110px); } .buck-thread { max-height:150px; } }
